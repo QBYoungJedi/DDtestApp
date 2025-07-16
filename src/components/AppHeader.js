@@ -50,8 +50,23 @@ const AppHeader = () => {
         >
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
-        <CHeaderNav className="d-none d-md-flex">
+
+                <CHeaderNav className="d-none d-md-flex flex-grow-1">
+
+          {/* Search bar added here */}
+          <div className="search-container d-flex ms-4">
+            <input
+              type="text"
+              className="form-control form-control-sm me-2"
+              placeholder="Search..."
+              style={{ width: '800px' }}
+            />
+            <button className="btn btn-sm btn-primary">
+              <i className="cil-magnifying-glass"></i>
+            </button>
+          </div>
         </CHeaderNav>
+
         <CHeaderNav>
           <li className="nav-item py-1">
             <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
