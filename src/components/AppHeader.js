@@ -19,6 +19,7 @@ import {
   cilEnvelopeOpen,
   cilList,
   cilMenu,
+  cilMagnifyingGlass,
   cilMoon,//dark and light mode icons
   cilSun,//dark and light mode icons
 } from '@coreui/icons'
@@ -62,7 +63,7 @@ const AppHeader = () => {
               style={{ width: '800px' }}
             />
             <button className="btn btn-sm btn-primary">
-              <i className="cil-magnifying-glass"></i>
+<CIcon icon={cilMagnifyingGlass} size="lg" />
             </button>
           </div>
         </CHeaderNav>
