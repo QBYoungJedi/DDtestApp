@@ -9,14 +9,10 @@ import {
   CSidebarHeader,
   CSidebarToggler,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 
 import { AppSidebarNav } from './AppSidebarNav'
+import logo from 'src/assets/brand/SunBoard-SVG-TEMP-Logo.svg' // ✅ fixed import
 
-import { logo } from 'src/assets/brand/logo'
-import { sygnet } from 'src/assets/brand/sygnet'
-
-// sidebar nav config
 import navigation from '../_nav'
 
 const AppSidebar = () => {
@@ -35,17 +31,16 @@ const AppSidebar = () => {
         dispatch({ type: 'set', sidebarShow: visible })
       }}
     >
-      <CSidebarHeader className="border-bottom">
-        <CSidebarBrand to="/">
-          <CIcon customClassName="sidebar-brand-full" icon={logo} height={32} />
-          <CIcon customClassName="sidebar-brand-narrow" icon={sygnet} height={32} />
-        </CSidebarBrand>
-        <CCloseButton
-          className="d-lg-none"
-          dark
-          onClick={() => dispatch({ type: 'set', sidebarShow: false })}
-        />
-      </CSidebarHeader>
+      <CSidebarHeader className="border-bottom d-flex justify-content-center align-items-center">
+  <CSidebarBrand to="/" className="d-flex justify-content-center w-100">
+    <img src={logo} alt="Logo" height={60} />
+  </CSidebarBrand>
+  <CCloseButton
+    className="d-lg-none position-absolute end-0 me-2"
+    dark
+    onClick={() => dispatch({ type: 'set', sidebarShow: false })}
+  />
+</CSidebarHeader>
       <AppSidebarNav items={navigation} />
       <CSidebarFooter className="border-top d-none d-lg-flex">
         <CSidebarToggler

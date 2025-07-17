@@ -7,6 +7,7 @@ import 'simplebar-react/dist/simplebar.min.css'
 
 import { CBadge, CNavLink, CSidebarNav } from '@coreui/react'
 
+
 export const AppSidebarNav = ({ items }) => {
   const navLink = (name, icon, badge, indent = false) => {
     return (
@@ -62,6 +63,20 @@ export const AppSidebarNav = ({ items }) => {
 
   return (
     <CSidebarNav as={SimpleBar}>
+<div className="sidebar-profile" style={{ padding: '1rem', textAlign: 'center' }}>
+  <img
+    src="src\assets\images\avatars\Donshay.jpg" // or dynamic variable
+    alt="User Profile"
+    style={{
+      width: '150px',
+      height: '150px',
+      borderRadius: '50%', // Makes it circular
+      objectFit: 'cover',
+      border: '2px solid #ddd'
+    }}
+  />
+  <p style={{ marginTop: '8px', fontWeight: 'bold' }}>Username</p>
+</div>
       {items &&
         items.map((item, index) => (item.items ? navGroup(item, index) : navItem(item, index)))}
     </CSidebarNav>
