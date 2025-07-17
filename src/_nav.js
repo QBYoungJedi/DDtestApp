@@ -5,6 +5,7 @@ import {
   cilSpeedometer,
   cilGroup,
   cilSettings,
+  cilUser,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -18,6 +19,13 @@ const _nav = [
       color: 'info',
     },
   },
+  {
+    component: CNavItem,
+    name: 'User',
+    to: '/buttons', //Link to settings page when created
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+  },
+
   {
     component: CNavItem,
     name: 'Teams',
