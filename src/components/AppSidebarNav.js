@@ -65,11 +65,11 @@ export const AppSidebarNav = ({ items }) => {
     <CSidebarNav as={SimpleBar}>
 <div className="sidebar-profile" style={{ padding: '1rem', textAlign: 'center' }}>
   <img
-    src="path-to-user-image.jpg" // or dynamic variable
+    src="src\assets\images\avatars\Donshay.jpg" // or dynamic variable
     alt="User Profile"
     style={{
-      width: '60px',
-      height: '60px',
+      width: '150px',
+      height: '150px',
       borderRadius: '50%', // Makes it circular
       objectFit: 'cover',
       border: '2px solid #ddd'
