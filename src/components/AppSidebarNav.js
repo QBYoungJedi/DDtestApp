@@ -62,6 +62,7 @@ export const AppSidebarNav = ({ items }) => {
 
   const notificationCount = 3 // notification count for the profile picture
 
+// Profile picture with notification bubble
   return (
     <CSidebarNav as={SimpleBar}>
       <div
