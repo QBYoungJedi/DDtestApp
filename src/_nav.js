@@ -21,22 +21,21 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'User',
-    to: '/buttons', //Link to settings page when created
+    name: 'Profile',
+    to: '/profile', //Link to settings page when created
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
 
   {
     component: CNavItem,
     name: 'Teams',
-    to: '/Teams', //Link to settings page when created
+    to: '/teams', //Link to settings page when created
     icon: <CIcon icon={cilGroup} customClassName="nav-icon" />,
   },
-
-  {
+{
     component: CNavItem,
     name: 'Reports',
-    to: '/charts', //Change to reports page when created
+    to: '/Reports', //Change to reports page when created
     icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
   },
   {
