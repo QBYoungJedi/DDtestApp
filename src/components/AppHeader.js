@@ -6,23 +6,22 @@ import {
   CDropdown,
   CDropdownItem,
   CDropdownMenu,
-  CDropdownToggle,
+  CDropdownToggle,//dark and light mode toggle
   CHeader,
   CHeaderNav,
   CHeaderToggler,
   CNavLink,
-  CNavItem,
   useColorModes,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
-  cilBell,
-  cilContrast,
+  cilContrast, //dark and light mode icons
   cilEnvelopeOpen,
   cilList,
   cilMenu,
-  cilMoon,
-  cilSun,
+  cilMagnifyingGlass,
+  cilMoon,//dark and light mode icons
+  cilSun,//dark and light mode icons
 } from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
@@ -43,6 +42,7 @@ const AppHeader = () => {
   }, [])
 
   return (
+    
     <CHeader position="sticky" className="mb-4 p-0" ref={headerRef}>
       <CContainer className="border-bottom px-4" fluid>
         <CHeaderToggler
@@ -51,36 +51,23 @@ const AppHeader = () => {
         >
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
-        <CHeaderNav className="d-none d-md-flex">
-          <CNavItem>
-            <CNavLink to="/dashboard" as={NavLink}>
-              Dashboard
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">Users</CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">Settings</CNavLink>
-          </CNavItem>
+
+                <CHeaderNav className="d-none d-md-flex flex-grow-1">
+
+          {/* Search bar added here */}
+          <div className="search-container d-flex ms-4">
+            <input
+              type="text"
+              className="form-control form-control-sm me-2"
+              placeholder="Search..."
+              style={{ width: '800px' }}
+            />
+            <button className="btn btn-sm btn-primary">
+<CIcon icon={cilMagnifyingGlass} size="lg" />
+            </button>
+          </div>
         </CHeaderNav>
-        <CHeaderNav className="ms-auto">
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilBell} size="lg" />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilList} size="lg" />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilEnvelopeOpen} size="lg" />
-            </CNavLink>
-          </CNavItem>
-        </CHeaderNav>
+
         <CHeaderNav>
           <li className="nav-item py-1">
             <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
@@ -128,7 +115,6 @@ const AppHeader = () => {
           <li className="nav-item py-1">
             <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
           </li>
-          <AppHeaderDropdown />
         </CHeaderNav>
       </CContainer>
       <CContainer className="px-4" fluid>
@@ -139,3 +125,5 @@ const AppHeader = () => {
 }
 
 export default AppHeader
+
+//AppHeaderDropDown component is the profile picture and dropdown menu but removed
