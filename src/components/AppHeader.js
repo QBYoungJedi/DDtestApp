@@ -25,7 +25,7 @@ import {
 } from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
-import { AppHeaderDropdown } from './header/index'
+
 
 const AppHeader = () => {
   const headerRef = useRef()
@@ -125,5 +125,3 @@ const AppHeader = () => {
 }
 
 export default AppHeader
-
-//AppHeaderDropDown component is the profile picture and dropdown menu but removed
