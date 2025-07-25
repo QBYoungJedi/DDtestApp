@@ -25,11 +25,10 @@ import CIcon from '@coreui/icons-react'
 
 
 
-import WidgetsBrand from '../widgets/WidgetsBrand'
-import WidgetsDropdown from '../widgets/WidgetsDropdown'
-import MainChart from './MainChart'
+
 import Carousels from '../base/carousels/Carousels'
 import Cards from '../base/cards/Cards'
+import CarouselsC from '../base/carousels/CarouselsC'
 
 const Dashboard = () => {
 
@@ -37,6 +36,7 @@ const Dashboard = () => {
     <>
       <Cards/>
       <Carousels/>
+      
     </>
   )
 }

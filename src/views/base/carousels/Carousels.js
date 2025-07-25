@@ -12,30 +12,30 @@ import {
 
 const Carousels = () => {
   return (
-  <CCarousel controls indicators light>
+  <CCarousel controls indicators dark>
                 <CCarouselItem>
-                  <img className="d-block w-100" src="src\assets\images\KC banner.jpg" alt="OKR 1" />
+                  <img className="d-block w-100" src="src\assets\images\white.jpg" alt="OKR 1" />
                   <CCarouselCaption className="d-none d-md-block">
                     <h5>OKR 1</h5>
                     <p>LIVE SAFE</p>
                   </CCarouselCaption>
                 </CCarouselItem>
                 <CCarouselItem>
-                  <img className="d-block w-100" src="src\assets\images\KC banner.jpg" alt="OKR 2" />
+                  <img className="d-block w-100" src="src\assets\images\white.jpg" alt="OKR 2" />
                   <CCarouselCaption className="d-none d-md-block">
                     <h5>OKR 2</h5>
                     <p>Raise more 20% more for chairty </p>
                   </CCarouselCaption>
                 </CCarouselItem>
                 <CCarouselItem>
-                  <img className="d-block w-100" src="src\assets\images\KC banner.jpg" alt="OKR 3" />
+                  <img className="d-block w-100" src="src\assets\images\white.jpg" alt="OKR 3" />
                   <CCarouselCaption className="d-none d-md-block">
                     <h5>OKR 3</h5>
                     <p>Raise NPS score by 35%</p>
                   </CCarouselCaption>
                 </CCarouselItem>
                 <CCarouselItem>
-                  <img className="d-block w-100" src='src\assets\images\KC banner.jpg' alt="OKR 4" />
+                  <img className="d-block w-100" src="src\assets\images\white.jpg" alt="OKR 4" />
                   <CCarouselCaption className="d-none d-md-block">
                     <h5>OKR 4</h5>
                     <p>Increase sales by 100%</p>
