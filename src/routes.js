@@ -99,9 +99,10 @@ const routes = [
   { path: '/widgets', name: 'Widgets', element: Widgets },
   /* Added Routes to New Pages */
   { path: '/profile', name: 'Profile', element: React.lazy(() => import('./views/profile/Profile')) },
-  { path: '/settings', name: 'Settings', element: React.lazy(() => import('./views/settings/Settings')) },
+  { path: '/settings', name: 'Settings', element: React.lazy(() => import('./views/settings/SettingsContent')) },
   { path: '/teams', name: 'Teams', element: React.lazy(() => import('./views/teams/Teams')) },
   { path: '/reports', name: 'Reports', element: React.lazy(() => import('./views/reports/Reports')) },
 
 ]
+
 export default routes
