@@ -57,35 +57,6 @@ const Cards = () => {
                 </CCardBody>
               </CCard>
         </CCard>
-        <CCard>
-              <CCard>
-                <CCardHeader>
-                  <CNav variant="tabs" className="card-header-tabs">
-                    <CNavItem>
-                      <CNavLink data-bs-toggle="tab" data-bs-target="#Tab2">
-                        OKR 1
-                      </CNavLink>
-                    </CNavItem>
-                    <CNavItem>
-                      <CNavLink href="#Tab2">OKR 2</CNavLink>
-                    </CNavItem>
-                    <CNavItem>
-                      <CNavLink href="#3">OKR 3</CNavLink>
-                    </CNavItem>
-                  </CNav>
-                </CCardHeader>
-                <CCardBody style={{minHeight:500}} id='#Tab2'>
-                <CContainer>
-                 <CCard className='d-flex align-content-center w-200'>
-                  <CCardBody className='text-center'>
-                    Raise 20% more for NGO 
-                  </CCardBody>
-                 </CCard>
-                </CContainer>  
-                 <CarouselsC/>
-                </CCardBody>
-              </CCard>
-        </CCard>
       </CCol>
 
         <CCol sm={7}>

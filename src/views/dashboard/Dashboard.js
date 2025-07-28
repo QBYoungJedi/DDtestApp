@@ -36,7 +36,7 @@ const Dashboard = () => {
     <>
       <Cards/>
       <Carousels/>
-      
+    
     </>
   )
 }
