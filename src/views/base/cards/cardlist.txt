@@ -1,0 +1,45 @@
+   <CCol xs={12}>
+        <CCard className="mb-4">
+          <CCardHeader>
+            <strong>Card</strong> <small>List groups</small>
+          </CCardHeader>
+          <CCardBody>
+            <p className="text-body-secondary small">
+              Create lists of content in a card with a flush list group.
+            </p>
+            <DocsExample href="components/card/#list-groups">
+              <CRow>
+                <CCol lg={4}>
+                  <CCard>
+                    <CListGroup flush>
+                      <CListGroupItem>Cras justo odio</CListGroupItem>
+                      <CListGroupItem>Dapibus ac facilisis in</CListGroupItem>
+                      <CListGroupItem>Vestibulum at eros</CListGroupItem>
+                    </CListGroup>
+                  </CCard>
+                </CCol>
+                <CCol lg={4}>
+                  <CCard>
+                    <CCardHeader>Header</CCardHeader>
+                    <CListGroup flush>
+                      <CListGroupItem>Cras justo odio</CListGroupItem>
+                      <CListGroupItem>Dapibus ac facilisis in</CListGroupItem>
+                      <CListGroupItem>Vestibulum at eros</CListGroupItem>
+                    </CListGroup>
+                  </CCard>
+                </CCol>
+                <CCol lg={4}>
+                  <CCard>
+                    <CListGroup flush>
+                      <CListGroupItem>Cras justo odio</CListGroupItem>
+                      <CListGroupItem>Dapibus ac facilisis in</CListGroupItem>
+                      <CListGroupItem>Vestibulum at eros</CListGroupItem>
+                    </CListGroup>
+                    <CCardFooter>Footer</CCardFooter>
+                  </CCard>
+                </CCol>
+              </CRow>
+            </DocsExample>
+          </CCardBody>
+        </CCard>
+      </CCol>
