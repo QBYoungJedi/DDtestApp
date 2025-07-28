@@ -72,7 +72,7 @@ export const AppSidebarNav = ({ items }) => {
           textAlign: 'center',
         }}
       >
-        <Link to="/buttons" style={{ textDecoration: 'none' }}>
+        <Link to="/Profile" style={{ textDecoration: 'none' }}>
           <div
             style={{
               position: 'relative',
