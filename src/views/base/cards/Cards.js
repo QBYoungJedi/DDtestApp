@@ -21,6 +21,7 @@ import {
   CContainer,
 } from '@coreui/react'
 import CarouselsC from '../carousels/CarouselsC'
+import Rtextarea from '../../forms/Rtextarea'
 
 
 const Cards = () => {
@@ -84,15 +85,13 @@ const Cards = () => {
                   <CNav variant="tabs" className="card-header-tabs">
                     <CNavItem>
                       <CNavLink href="#" active>
-                        Active
+                        Key Results
                       </CNavLink>
-                    </CNavItem>
-                    <CNavItem>
-                      <CNavLink href="#">Link</CNavLink>
                     </CNavItem>
                   </CNav>
                 </CCardHeader>
                 <CCardBody style={{minHeight: 185}}>
+                  <Rtextarea/>
                 </CCardBody>
               </CCard>
         </CCard>
