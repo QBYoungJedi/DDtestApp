@@ -10,7 +10,6 @@ const Rtextarea = () => {
       aria-label="Key-results for OKR 1"
       disabled
       readOnly
-      text='Here can view all your key-results for your OKR provided by your lead '
     >
     1. Learn more about mental and physical health  
     2. Learn about traffic laws and practice safe law
