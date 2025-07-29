@@ -12,13 +12,19 @@ import {
 =======
   CContainer,
   CButton,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 } from '@coreui/react'
 import { DocsComponents, DocsExample } from 'src/components'
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import ReactImg from 'src/assets/images/react.jpg'
 =======
+=======
+>>>>>>> Stashed changes
 const Cards = ({ currentOKR, setCurrentOKR, okrs }) => {
   if (!okrs || okrs.length === 0) {
     return <div>No OKRs available</div>
@@ -31,6 +37,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs }) => {
   const handlePrev = () => {
     setCurrentOKR((prev) => (prev - 1 + okrs.length) % okrs.length)
   }
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
   return (
@@ -940,6 +947,10 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs }) => {
       </CCol>
     </CRow>
 =======
+=======
+
+  return (
+>>>>>>> Stashed changes
     <CContainer style={{ marginBottom: 32 }}>
       <CRow sm={{ gutterX: 5 }}>
         {/* Left Column */}
@@ -1079,6 +1090,9 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs }) => {
         </CCol>
       </CRow>
     </CContainer>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   )
 }

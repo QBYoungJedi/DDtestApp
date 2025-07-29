@@ -29,6 +29,7 @@ const Carousels = ({ currentOKR, setCurrentOKR, okrs }) => {
     }
   }
 
+<<<<<<< Updated upstream
   return (
 <<<<<<< Updated upstream
     <CRow>
@@ -216,6 +217,22 @@ const Carousels = ({ currentOKR, setCurrentOKR, okrs }) => {
       </CCol>
     </CRow>
 =======
+=======
+const Carousels = ({ currentOKR, setCurrentOKR, okrs }) => {
+  const carouselRef = useRef(null)
+
+  const handleSlideEnd = () => {
+    if (carouselRef.current) {
+      const activeSlide = carouselRef.current.querySelector('.carousel-item.active')
+      const newIndex = Array.from(carouselRef.current.querySelectorAll('.carousel-item')).indexOf(activeSlide)
+      if (newIndex !== -1 && newIndex !== currentOKR) {
+        setCurrentOKR(newIndex)
+      }
+    }
+  }
+
+  return (
+>>>>>>> Stashed changes
     <CContainer>
       <div ref={carouselRef}>
         <CCarousel
@@ -233,6 +250,9 @@ const Carousels = ({ currentOKR, setCurrentOKR, okrs }) => {
         </CCarousel>
       </div>
     </CContainer>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   )
 }

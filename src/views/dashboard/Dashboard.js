@@ -43,6 +43,7 @@ import {
 } from '@coreui/icons'
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import avatar1 from 'src/assets/images/avatars/1.jpg'
 import avatar2 from 'src/assets/images/avatars/2.jpg'
 import avatar3 from 'src/assets/images/avatars/3.jpg'
@@ -54,6 +55,8 @@ import WidgetsBrand from '../widgets/WidgetsBrand'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
 import MainChart from './MainChart'
 =======
+=======
+>>>>>>> Stashed changes
 import Carousels from '../base/carousels/Carousels'
 import React, { useState } from 'react'
 import Cards from '../base/cards/Cards'
@@ -76,7 +79,24 @@ const okrs = [
   },
 ]
 
+
+const okrs = [
+  {
+    title: 'Live Safer',
+    progress: 65,
+  },
+  {
+    title: 'Stay Healthy',
+    progress: 80,
+  },
+  {
+    title: 'Learn Continuously',
+    progress: 40,
+  },
+]
+
 const Dashboard = () => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
@@ -403,6 +423,14 @@ const Dashboard = () => {
           </CCard>
         </CCol>
       </CRow>
+=======
+  const [currentOKR, setCurrentOKR] = useState(0)
+
+  return (
+    <>
+      <Cards currentOKR={currentOKR} setCurrentOKR={setCurrentOKR} okrs={okrs} />
+      <Carousels currentOKR={currentOKR} setCurrentOKR={setCurrentOKR} okrs={okrs} />
+>>>>>>> Stashed changes
 =======
   const [currentOKR, setCurrentOKR] = useState(0)
 
