@@ -14,6 +14,9 @@ import {
   CButton,
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -25,8 +28,11 @@ import { DocsComponents, DocsExample } from 'src/components'
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import ReactImg from 'src/assets/images/react.jpg'
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -43,6 +49,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs }) => {
   const handlePrev = () => {
     setCurrentOKR((prev) => (prev - 1 + okrs.length) % okrs.length)
   }
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 >>>>>>> Stashed changes
@@ -962,6 +969,10 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs }) => {
 
   return (
 >>>>>>> Stashed changes
+=======
+
+  return (
+>>>>>>> Stashed changes
     <CContainer style={{ marginBottom: 32 }}>
       <CRow sm={{ gutterX: 5 }}>
         {/* Left Column */}
@@ -1103,6 +1114,9 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs }) => {
     </CContainer>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
