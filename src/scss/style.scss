@@ -65,3 +65,58 @@ body {
     --cui-footer-bg: var(--cui-body-bg);
   }
 }
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: brightness(0);
+}
+.custom-arrow-button {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0.25rem 0.5rem !important;
+  min-width: 32px !important;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}
+.custom-arrow {
+  // Remove shadows, background, border if any
+  box-shadow: none !important;
+  background: transparent !important;
+  border: none !important;
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    filter: brightness(0); // arrow default color (black-ish)
+    transition: filter 0.3s ease;
+  }
+
+  //changes arrow color on hover/focus
+.custom-arrow {
+  box-shadow: none !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;  // remove any outline on focus/hover
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    filter: brightness(0.6);  // slightly faded black by default
+    transition: filter 0.3s ease;
+  }
+
+  &:hover,
+  &:focus {
+    box-shadow: none !important;  // ensure no shadow on hover/focus
+    background: transparent !important;
+    outline: none !important;
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+      filter: brightness(1);  // full black on hover/focus
+    }
+  }
+}
+
+}

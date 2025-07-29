@@ -1,30 +1,40 @@
 import React from 'react'
 import {
-  CButton,
   CCard,
   CCardBody,
-  CCardFooter,
-  CCardGroup,
   CCardHeader,
-  CCardImage,
-  CCardLink,
-  CCardSubtitle,
-  CCardText,
-  CCardTitle,
-  CListGroup,
-  CListGroupItem,
   CNav,
   CNavItem,
   CNavLink,
   CCol,
   CRow,
+<<<<<<< Updated upstream
+=======
+  CContainer,
+  CButton,
+>>>>>>> Stashed changes
 } from '@coreui/react'
 import { DocsComponents, DocsExample } from 'src/components'
 
+<<<<<<< Updated upstream
 import ReactImg from 'src/assets/images/react.jpg'
+=======
+const Cards = ({ currentOKR, setCurrentOKR, okrs }) => {
+  if (!okrs || okrs.length === 0) {
+    return <div>No OKRs available</div>
+  }
 
-const Cards = () => {
+  const handleNext = () => {
+    setCurrentOKR((prev) => (prev + 1) % okrs.length)
+  }
+
+  const handlePrev = () => {
+    setCurrentOKR((prev) => (prev - 1 + okrs.length) % okrs.length)
+  }
+>>>>>>> Stashed changes
+
   return (
+<<<<<<< Updated upstream
     <CRow>
       <CCol xs={12}>
         <DocsComponents href="components/card/" />
@@ -929,6 +939,147 @@ const Cards = () => {
         </CCard>
       </CCol>
     </CRow>
+=======
+    <CContainer style={{ marginBottom: 32 }}>
+      <CRow sm={{ gutterX: 5 }}>
+        {/* Left Column */}
+        <CCol sm={5}>
+          <CCard>
+            <CCardHeader>
+              <CNav variant="tabs" className="card-header-tabs">
+                {okrs.map((okr, index) => (
+                  <CNavItem key={index}>
+                    <CNavLink
+                      active={currentOKR === index}
+                      onClick={() => setCurrentOKR(index)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      OKR {index + 1}
+                    </CNavLink>
+                  </CNavItem>
+                ))}
+              </CNav>
+            </CCardHeader>
+
+            <CCardBody style={{ minHeight: 500 }}>
+              <CContainer>
+
+                {/* Title and Arrows in same row */}
+ <CCard className="d-flex align-content-center w-200 mb-3">
+  <CCardBody
+    className="d-flex align-items-center justify-content-between"
+    style={{ padding: '0.5rem 1rem', height: '48px' }} // set fixed height to align items vertically
+  >
+    <CButton
+      color="light"
+      variant="ghost"
+      className="custom-arrow carousel-control-prev"
+      onClick={handlePrev}
+      style={{
+        width: '2rem',
+        height: '2rem',
+        padding: 0,
+        minWidth: 'unset',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <span
+        className="carousel-control-prev-icon"
+        style={{
+          width: '1.5rem',
+          height: '1.5rem',
+          filter: 'brightness(0)',
+          marginTop: '16px', // nudge downward
+        }}
+      />
+    </CButton>
+
+    <div
+      className="fw-bold fs-5 text-center flex-grow-1"
+      style={{ margin: '0 0.75rem' }}
+    >
+      {okrs[currentOKR]?.title}
+    </div>
+
+    <CButton
+      color="light"
+      variant="ghost"
+      className="custom-arrow carousel-control-next"
+      onClick={handleNext}
+      style={{
+        width: '2rem',
+        height: '2rem',
+        padding: 0,
+        minWidth: 'unset',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <span
+        className="carousel-control-next-icon"
+        style={{
+          width: '1.5rem',
+          height: '1.5rem',
+          filter: 'brightness(0)',
+          marginTop: '16px', // nudge arrows downward
+        }}
+      />
+    </CButton>
+  </CCardBody>
+</CCard>
+<CCard>
+    <CarouselsC 
+      currentOKR={currentOKR}
+      setCurrentOKR={setCurrentOKR}
+      okrs={okrs}
+    />
+    </CCard>
+              </CContainer>
+            </CCardBody>
+          </CCard>
+        </CCol>
+
+        {/* Right Upper Column */}
+        <CCol sm={7}>
+          <CCard>
+            <CCardHeader>
+              <CNav variant="tabs" className="card-header-tabs">
+                <CNavItem>
+                  <CNavLink href="#" active>
+                    Active
+                  </CNavLink>
+                </CNavItem>
+                <CNavItem>
+                  <CNavLink href="#">Link</CNavLink>
+                </CNavItem>
+              </CNav>
+            </CCardHeader>
+            <CCardBody style={{ minHeight: 185 }} />
+          </CCard>
+
+          {/* Right Lower Column */}
+          <CCard style={{ marginTop: 80 }}>
+            <CCardHeader>
+              <CNav variant="tabs" className="card-header-tabs">
+                <CNavItem>
+                  <CNavLink href="#" active>
+                    Active
+                  </CNavLink>
+                </CNavItem>
+                <CNavItem>
+                  <CNavLink href="#">Link</CNavLink>
+                </CNavItem>
+              </CNav>
+            </CCardHeader>
+            <CCardBody style={{ minHeight: 185 }} />
+          </CCard>
+        </CCol>
+      </CRow>
+    </CContainer>
+>>>>>>> Stashed changes
   )
 }
 
