@@ -19,6 +19,7 @@ import {
   cilArrowRight,
 } from '@coreui/icons'
 import CarouselsC from '../carousels/CarouselsC'
+import Rtextarea from '../../forms/Rtextarea'
 
 // Placeholder for InitiativeGraph
 const InitiativeGraph = ({ initiative }) => (
@@ -221,6 +222,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs }) => {
 
         {/* Right Column */}
         <CCol sm={7}>
+
           {/* Initiatives Section at the top */}
           <InitiativesSection initiatives={initiatives} />
 
@@ -245,5 +247,4 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs }) => {
     </CContainer>
   )
 }
-
 export default Cards
