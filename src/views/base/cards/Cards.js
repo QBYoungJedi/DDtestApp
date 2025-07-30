@@ -1,104 +1,414 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
-  CButton,
   CCard,
   CCardBody,
-  CCardFooter,
-  CCardGroup,
   CCardHeader,
-  CCardImage,
-  CCardLink,
-  CCardSubtitle,
-  CCardText,
-  CCardTitle,
-  CListGroup,
-  CListGroupItem,
+  CCol,
+  CRow,
+  CButton,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CModalFooter,
+  CContainer,
   CNav,
   CNavItem,
   CNavLink,
-  CCol,
-  CRow,
-  CContainer,
 } from '@coreui/react'
-import CarouselsC from '../carousels/CarouselsC'
-import Rtextarea from '../../forms/Rtextarea'
+import CIcon from '@coreui/icons-react'
+import {
+  cilPlus,
+  cilPencil,
+  cilList,
+  cilArrowLeft,
+  cilArrowRight,
+} from '@coreui/icons'
+import { CChart } from '@coreui/react-chartjs'
 
 
-const Cards = () => {
+// Placeholder for InitiativeGraph
+const InitiativeGraph = ({ initiative }) => (
+  <div style={{ height: 200, backgroundColor: '#eef3f7' }}>
+    <p className="text-center pt-5">Graph for: {initiative.title}</p>
+  </div>
+)
+
+// Placeholder for InitiativeComments
+const InitiativeComments = ({ initiative }) => (
+  <div style={{ height: 200, backgroundColor: '#f7f9fb', padding: '1rem', overflowY: 'auto' }}>
+    <p>Comments related to: {initiative.title}</p>
+    {/* Replace with your comment components */}
+  </div>
+)
+
+const InitiativesSection = ({ initiatives }) => {
+  if (!initiatives || initiatives.length === 0) {
+    return <div>No initiatives available</div>
+  }
+
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [newInitiativeTitle, setNewInitiativeTitle] = useState('')
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + initiatives.length) % initiatives.length)
+  }
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % initiatives.length)
+  }
+
+  const handleViewAll = () => {
+    alert('View all initiatives here')
+  }
+
+  const handleAdd = () => {
+    setShowAddModal(true)
+  }
+
+  const handleAddSubmit = () => {
+    alert(`New initiative added: ${newInitiativeTitle}`)
+    setNewInitiativeTitle('')
+    setShowAddModal(false)
+  }
+
+  const handleAddCancel = () => {
+    setNewInitiativeTitle('')
+    setShowAddModal(false)
+  }
+
+  const handleEdit = () => {
+    alert(`Edit initiative: ${initiatives[currentIndex].title}`)
+  }
+
+  const currentInitiative = initiatives[currentIndex]
+
   return (
-  <CContainer style={{marginBottom: 32}}>  
-    <CRow sm={{gutterX: 5}} >
-      <CCol sm={5}>
-        <CCard>
-              <CCard>
-                <CCardHeader>
-                  <CNav variant="tabs" className="card-header-tabs">
-                    <CNavItem>
-                      <CNavLink ata-bs-toggle="tab" data-bs-target="#Tab1" active>
-                        OKR 1
-                      </CNavLink>
-                    </CNavItem>
-                    <CNavItem>
-                      <CNavLink href="#2">OKR 2</CNavLink>
-                    </CNavItem>
-                    <CNavItem>
-                      <CNavLink href="#3">OKR 3</CNavLink>
-                    </CNavItem>
-                  </CNav>
-                </CCardHeader>
-                <CCardBody style={{minHeight:500}} id='#Tab1'>
-                <CContainer>
-                 <CCard className='d-flex align-content-center w-200'>
-                  <CCardBody className='text-center'>
-                    Live Safer
-                  </CCardBody>
-                 </CCard>
-                </CContainer>  
-                 <CarouselsC/>
-                </CCardBody>
-              </CCard>
-        </CCard>
-      </CCol>
+    <>
+      <CCard style={{ marginBottom: 32 }}>
+        <CCardHeader>
+          <div className="d-flex justify-content-end">
+            <CButton color="light" variant="ghost" onClick={handleViewAll} className="me-2">
+              <CIcon icon={cilList} />
+            </CButton>
+            <CButton color="light" variant="ghost" onClick={handleAdd} className="me-2">
+              <CIcon icon={cilPlus} />
+            </CButton>
+            <CButton color="light" variant="ghost" onClick={handleEdit}>
+              <CIcon icon={cilPencil} />
+            </CButton>
+          </div>
 
-        <CCol sm={7}>
-        <CCard>
-              <CCard>
-                <CCardHeader>
-                  <CNav variant="tabs" className="card-header-tabs">
-                    <CNavItem>
-                      <CNavLink href="#" active>
-                        Active
-                      </CNavLink>
-                    </CNavItem>
-                    <CNavItem>
-                      <CNavLink href="#">Link</CNavLink>
-                    </CNavItem>
-                  </CNav>
-                </CCardHeader>
-                <CCardBody style={{minHeight: 185}}>
-                </CCardBody>
-              </CCard>
-        </CCard>
-        <CCard style={{marginTop: 80}}>
-              <CCard>
-                <CCardHeader>
-                  <CNav variant="tabs" className="card-header-tabs">
-                    <CNavItem>
-                      <CNavLink href="#" active>
-                        Key Results
-                      </CNavLink>
-                    </CNavItem>
-                  </CNav>
-                </CCardHeader>
-                <CCardBody style={{minHeight: 185}}>
-                  <Rtextarea/>
-                </CCardBody>
-              </CCard>
-        </CCard>
-      </CCol>
-    </CRow>
-  </CContainer> 
+          <div className="d-flex justify-content-center align-items-center mt-3">
+            <CButton
+              color="light"
+              variant="ghost"
+              onClick={handlePrev}
+              style={{
+                width: '2rem',
+                height: '2rem',
+                padding: 0,
+                minWidth: 'unset',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <CIcon icon={cilArrowLeft} style={{ width: '1.5rem', height: '1.5rem' }} />
+            </CButton>
+
+            <div className="mx-3 fw-bold fs-5 text-center" style={{ minWidth: 150 }}>
+              {currentInitiative.title}
+            </div>
+
+            <CButton
+              color="light"
+              variant="ghost"
+              onClick={handleNext}
+              style={{
+                width: '2rem',
+                height: '2rem',
+                padding: 0,
+                minWidth: 'unset',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <CIcon icon={cilArrowRight} style={{ width: '1.5rem', height: '1.5rem' }} />
+            </CButton>
+          </div>
+        </CCardHeader>
+
+        <CCardBody>
+          <CRow>
+            {/* 1/3: Graph */}
+            <CCol xs={4}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100%',
+                }}
+              >
+                <CChart
+                  type="doughnut"
+                  data={{
+                    labels: ['Completed', 'Remaining'],
+                    datasets: [
+                      {
+                        backgroundColor: ['#7b828cff', '#e0e0e0ff'],
+                        data: [
+                          currentInitiative?.progress || 0,
+                          100 - (currentInitiative?.progress || 0),
+                        ],
+                      },
+                    ],
+                  }}
+                  options={{
+                    plugins: {
+                      legend: {
+                        position: 'bottom',
+                      },
+                    },
+                    cutout: '70%',
+                  }}
+                  style={{ maxHeight: '200px', width: '200px' }}
+                />
+              </div>
+            </CCol>
+
+            {/* 2/3: Comments Section */}
+            <CCol xs={8}>
+              <div
+                style={{
+                  height: '100%',
+                  backgroundColor: '#f7f9fb',
+                  padding: '1rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  borderRadius: '8px',
+                }}
+              >
+                {/* Top Section: Most Recent Comment */}
+                <div style={{ flex: 1, marginBottom: '1rem', overflowY: 'auto' }}>
+                  <h6 className="fw-bold mb-2">Most Recent Comment:</h6>
+                  <p className="mb-0 text-muted">
+                    This is the most recent comment on "{currentInitiative.title}".
+                  </p>
+                </div>
+
+                {/* Divider */}
+                <div style={{ borderTop: '1px solid #dee2e6', marginBottom: '0.5rem' }}></div>
+
+                {/* Bottom Section: Add Comment */}
+                <div>
+                  <h6 className="fw-bold">Add Comment:</h6>
+                  <textarea
+                    className="form-control mb-2"
+                    rows="1"
+                    placeholder="Write a comment..."
+                    style={{ resize: 'none' }}
+                  ></textarea>
+                  <button className="btn btn-sm btn-primary">Submit</button>
+                </div>
+              </div>
+            </CCol>
+          </CRow>
+        </CCardBody>
+      </CCard>
+
+      {/* Initiative "+" Modal */}
+      <CModal visible={showAddModal} onClose={handleAddCancel}>
+        <CModalHeader closeButton>
+          <CModalTitle>Add New Initiative</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Enter initiative title"
+            value={newInitiativeTitle}
+            onChange={(e) => setNewInitiativeTitle(e.target.value)}
+          />
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="secondary" onClick={handleAddCancel}>
+            Cancel
+          </CButton>
+          <CButton color="primary" onClick={handleAddSubmit}>
+            Add
+          </CButton>
+        </CModalFooter>
+      </CModal>
+    </>
   )
 }
 
+{/*Dummy Data is on Dashboard.js*/}
+const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives }) => {
+  
+  if (!okrs || okrs.length === 0) {
+    return <div>No OKRs available</div>
+  }
+
+  if (!initiatives) {
+    return <div>No initiatives data provided</div>
+  }
+
+  const handleNext = () => {
+    setCurrentOKR((prev) => (prev + 1) % okrs.length)
+  }
+
+  const handlePrev = () => {
+    setCurrentOKR((prev) => (prev - 1 + okrs.length) % okrs.length)
+  }
+
+  return (
+    <CContainer style={{ marginBottom: 32 }}>
+      <CRow sm={{ gutterX: 5 }}>
+        {/* Left Column */}
+        <CCol sm={5}>
+          <CCard style={{ marginBottom: 32 }}>
+            {/* Card Header: icons top right, title & arrows on second row */}
+            <CCardHeader>
+              <div className="d-flex justify-content-between align-items-start">
+                {/* Empty space to push icons to right */}
+                <div></div>
+                <div>
+                  <CButton
+                    color="light"
+                    variant="ghost"
+                    onClick={() => alert(`Add List of Objectives: ${okrs[currentOKR]?.title}`)}
+                  >
+                    <CIcon icon={cilList} />
+                  </CButton>
+                  <CButton
+                    color="light"
+                    variant="ghost"
+                    onClick={() => alert('Add Objective')}
+                    className="me-2"
+                  >
+                    <CIcon icon={cilPlus} />
+                  </CButton>
+                  <CButton
+                    color="light"
+                    variant="ghost"
+                    onClick={() => alert(`Edit Objective: ${okrs[currentOKR]?.title}`)}
+                  >
+                    <CIcon icon={cilPencil} />
+                  </CButton>
+                </div>
+              </div>
+
+              {/* Second row: arrows and objectives */}
+              <div className="d-flex align-items-center mt-3">
+                <CButton
+                  color="light"
+                  variant="ghost"
+                  onClick={handlePrev}
+                  style={{
+                    width: '2rem',
+                    height: '2rem',
+                    padding: 0,
+                    minWidth: 'unset',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <CIcon icon={cilArrowLeft} style={{ width: '1.5rem', height: '1.5rem' }} />
+                </CButton>
+
+                <div className="flex-grow-1 text-center fw-bold fs-5">
+                  {okrs[currentOKR]?.title}
+                </div>
+
+                <CButton
+                  color="light"
+                  variant="ghost"
+                  onClick={handleNext}
+                  style={{
+                    width: '2rem',
+                    height: '2rem',
+                    padding: 0,
+                    minWidth: 'unset',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <CIcon icon={cilArrowRight} style={{ width: '1.5rem', height: '1.5rem' }} />
+                </CButton>
+              </div>
+            </CCardHeader>
+
+            {/* Card Body with Graph */}
+            <CCardBody style={{ minHeight: 500 }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '450px',
+                }}
+              >
+                <CChart
+                  type="doughnut"
+                  data={{
+                    labels: ['Completed', 'Remaining'],
+                    datasets: [
+                      {
+                        backgroundColor: ['#4caf50', '#e0e0e0'],
+                        data: [
+                          okrs[currentOKR]?.progress || 0,
+                          100 - (okrs[currentOKR]?.progress || 0),
+                        ],
+                      },
+                    ],
+                  }}
+                  options={{
+                    plugins: {
+                      legend: {
+                        position: 'bottom',
+                      },
+                    },
+                    cutout: '70%',
+                  }}
+                  style={{ maxHeight: '200px', width: '200px' }}
+                />
+              </div>
+            </CCardBody>
+          </CCard>
+        </CCol>
+
+        <CCol sm={7}>
+
+          {/* Initiatives Section at the top */}
+          <InitiativesSection initiatives={initiatives} />
+
+          {/* Bottom right column card */}
+          <CCard>
+            <CCardHeader>
+              <CNav variant="tabs" className="card-header-tabs">
+                <CNavItem>
+                  <CNavLink href="#" active>
+                    Active
+                  </CNavLink>
+                </CNavItem>
+                <CNavItem>
+                  <CNavLink href="#">Link</CNavLink>
+                </CNavItem>
+              </CNav>
+            </CCardHeader>
+            <CCardBody style={{ minHeight: 185 }} />
+          </CCard>
+        </CCol>
+      </CRow>
+    </CContainer>
+  )
+}
 export default Cards

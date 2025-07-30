@@ -1,9 +1,11 @@
 import React, { Suspense, useEffect } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
+import '@coreui/coreui/dist/css/coreui.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))

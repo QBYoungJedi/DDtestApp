@@ -1,47 +1,41 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
-  CCard,
-  CCardBody,
-  CCardHeader,
   CCarousel,
-  CCarouselCaption,
   CCarouselItem,
-  CCol,
-  CRow,
+  CContainer,
 } from '@coreui/react'
 
-const Carousels = () => {
+const Carousels = ({ currentOKR, setCurrentOKR, okrs }) => {
+  const carouselRef = useRef(null)
+
+  const handleSlideEnd = () => {
+    if (carouselRef.current) {
+      const activeSlide = carouselRef.current.querySelector('.carousel-item.active')
+      const newIndex = Array.from(carouselRef.current.querySelectorAll('.carousel-item')).indexOf(activeSlide)
+      if (newIndex !== -1 && newIndex !== currentOKR) {
+        setCurrentOKR(newIndex)
+      }
+    }
+  }
+
   return (
-  <CCarousel controls indicators dark>
-                <CCarouselItem>
-                  <img className="d-block w-100" src="src\assets\images\white.jpg" alt="OKR 1" />
-                  <CCarouselCaption className="d-none d-md-block">
-                    <h5>OKR 1</h5>
-                    <p>LIVE SAFE</p>
-                  </CCarouselCaption>
-                </CCarouselItem>
-                <CCarouselItem>
-                  <img className="d-block w-100" src="src\assets\images\white.jpg" alt="OKR 2" />
-                  <CCarouselCaption className="d-none d-md-block">
-                    <h5>OKR 2</h5>
-                    <p>Raise more 20% more for chairty </p>
-                  </CCarouselCaption>
-                </CCarouselItem>
-                <CCarouselItem>
-                  <img className="d-block w-100" src="src\assets\images\white.jpg" alt="OKR 3" />
-                  <CCarouselCaption className="d-none d-md-block">
-                    <h5>OKR 3</h5>
-                    <p>Raise NPS score by 35%</p>
-                  </CCarouselCaption>
-                </CCarouselItem>
-                <CCarouselItem>
-                  <img className="d-block w-100" src="src\assets\images\white.jpg" alt="OKR 4" />
-                  <CCarouselCaption className="d-none d-md-block">
-                    <h5>OKR 4</h5>
-                    <p>Increase sales by 100%</p>
-                  </CCarouselCaption>
-                </CCarouselItem>
-              </CCarousel>
+    <CContainer>
+      <div ref={carouselRef}>
+        <CCarousel
+          interval={false}
+          controls
+          indicators
+          onSlid={handleSlideEnd}
+          activeIndex={currentOKR}
+        >
+          {okrs.map((okr, index) => (
+            <CCarouselItem key={index}>
+              <h4 className="text-center">{okr.title}</h4>
+            </CCarouselItem>
+          ))}
+        </CCarousel>
+      </div>
+    </CContainer>
   )
 }
 
