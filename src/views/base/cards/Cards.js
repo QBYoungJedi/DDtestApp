@@ -17,8 +17,11 @@ import {
   cilPencil,
   cilArrowLeft,
   cilArrowRight,
+  cilList,
 } from '@coreui/icons'
 import CarouselsC from '../carousels/CarouselsC'
+import { CChart } from '@coreui/react-chartjs'
+
 
 // Placeholder for InitiativeGraph
 const InitiativeGraph = ({ initiative }) => (
@@ -34,7 +37,16 @@ const InitiativeComments = ({ initiative }) => (
     {/* Replace with your comment components */}
   </div>
 )
+  // Dummy initiatives data - replace with your real initiatives
+  const initiatives = [
+    { title: 'My Inititives', id: 1 },
+    { title: 'Stay Active', id: 2 },
+    { title: 'Initiative 3', id: 3 },
+  ]
 
+  //Dummy Objectives data
+
+  
 const InitiativesSection = ({ initiatives }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -43,6 +55,10 @@ const InitiativesSection = ({ initiatives }) => {
   }
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % initiatives.length)
+  }
+
+const handleViewAll = () => {
+    alert('View all initiatives here')
   }
 
   const handleAdd = () => {
@@ -55,23 +71,68 @@ const InitiativesSection = ({ initiatives }) => {
 
   const currentInitiative = initiatives[currentIndex]
 
-  return (
+    return (
     <CCard style={{ marginBottom: 32 }}>
       {/* Top section */}
       <CCardHeader className="d-flex align-items-center justify-content-between">
         <div className="d-flex align-items-center">
-          <CButton color="light" variant="ghost" onClick={handlePrev}>
-            <CIcon icon={cilArrowLeft} />
+          <CButton
+            color="light"
+            variant="ghost"
+            onClick={handlePrev}
+            style={{
+              width: '2rem',
+              height: '2rem',
+              padding: 0,
+              minWidth: 'unset',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <span
+              className="carousel-control-prev-icon"
+              style={{
+                width: '1.5rem',
+                height: '1.5rem',
+                filter: 'brightness(0)',
+                marginTop: '4px',
+              }}
+            />
           </CButton>
           <div className="mx-3 fw-bold" style={{ minWidth: 150 }}>
             {currentInitiative.title}
           </div>
-          <CButton color="light" variant="ghost" onClick={handleNext}>
-            <CIcon icon={cilArrowRight} />
+          <CButton
+            color="light"
+            variant="ghost"
+            onClick={handleNext}
+            style={{
+              width: '2rem',
+              height: '2rem',
+              padding: 0,
+              minWidth: 'unset',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <span
+              className="carousel-control-next-icon"
+              style={{
+                width: '1.5rem',
+                height: '1.5rem',
+                filter: 'brightness(0)',
+                marginTop: '4px',
+              }}
+            />
           </CButton>
         </div>
 
         <div>
+          <CButton color="light" variant="ghost" onClick={handleViewAll} className="me-2">
+            <CIcon icon={cilList}/>
+          </CButton>
           <CButton color="light" variant="ghost" onClick={handleAdd} className="me-2">
             <CIcon icon={cilPlus} />
           </CButton>
@@ -95,7 +156,6 @@ const InitiativesSection = ({ initiatives }) => {
     </CCard>
   )
 }
-
 const Cards = ({ currentOKR, setCurrentOKR, okrs }) => {
   if (!okrs || okrs.length === 0) {
     return <div>No OKRs available</div>
@@ -109,122 +169,147 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs }) => {
     setCurrentOKR((prev) => (prev - 1 + okrs.length) % okrs.length)
   }
 
-  // Dummy initiatives data - replace with your real initiatives
-  const initiatives = [
-    { title: 'Initiative 1', id: 1 },
-    { title: 'Initiative 2', id: 2 },
-    { title: 'Initiative 3', id: 3 },
-  ]
-
   return (
     <CContainer style={{ marginBottom: 32 }}>
       <CRow sm={{ gutterX: 5 }}>
         {/* Left Column */}
-        <CCol sm={5}>
-          <CCard>
-            <CCardHeader>
-              <CNav variant="tabs" className="card-header-tabs">
-                {okrs.map((okr, index) => (
-                  <CNavItem key={index}>
-                    <CNavLink
-                      active={currentOKR === index}
-                      onClick={() => setCurrentOKR(index)}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      OKR {index + 1}
-                    </CNavLink>
-                  </CNavItem>
-                ))}
-              </CNav>
-            </CCardHeader>
+<CCol sm={5}>
+  <CCard style={{ marginBottom: 32 }}>
 
-            <CCardBody style={{ minHeight: 500 }}>
-              <CContainer>
-                {/* Title and Arrows in same row */}
-                <CCard className="d-flex align-content-center w-200 mb-3">
-                  <CCardBody
-                    className="d-flex align-items-center justify-content-between"
-                    style={{ padding: '0.5rem 1rem', height: '48px' }}
-                  >
-                    <CButton
-                      color="light"
-                      variant="ghost"
-                      className="carousel-control-prev"
-                      onClick={handlePrev}
-                      style={{
-                        width: '2rem',
-                        height: '2rem',
-                        padding: 0,
-                        minWidth: 'unset',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <span
-                        className="carousel-control-prev-icon"
-                        style={{
-                          width: '1.5rem',
-                          height: '1.5rem',
-                          filter: 'brightness(0)',
-                          marginTop: '16px',
-                        }}
-                      />
-                    </CButton>
+    {/* Top Section: Objective navigation + title + buttons */}
+    <CCardHeader className="d-flex align-items-center justify-content-between">
+      <div className="d-flex align-items-center">
 
-                    <div
-                      className="fw-bold fs-5 text-center flex-grow-1"
-                      style={{ margin: '0 0.75rem' }}
-                    >
-                      {okrs[currentOKR]?.title}
-                    </div>
+        {/*Arrows for Objectives*/}
+        <CButton
+          color="light"
+          variant="ghost"
+          onClick={handlePrev}
+          style={{
+            width: '2rem',
+            height: '2rem',
+            padding: 0,
+            minWidth: 'unset',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <span
+            className="carousel-control-prev-icon"
+            style={{
+              width: '1.5rem',
+              height: '1.5rem',
+              filter: 'brightness(0)',
+              marginTop: '4px',
+            }}
+          />
+        </CButton>
 
-                    <CButton
-                      color="light"
-                      variant="ghost"
-                      className="carousel-control-next"
-                      onClick={handleNext}
-                      style={{
-                        width: '2rem',
-                        height: '2rem',
-                        padding: 0,
-                        minWidth: 'unset',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <span
-                        className="carousel-control-next-icon"
-                        style={{
-                          width: '1.5rem',
-                          height: '1.5rem',
-                          filter: 'brightness(0)',
-                          marginTop: '16px',
-                        }}
-                      />
-                    </CButton>
-                  </CCardBody>
-                </CCard>
+        <div className="mx-3 fw-bold fs-5" style={{ minWidth: 150 }}>
+          {okrs[currentOKR]?.title}
+        </div>
 
-                <div style={{ width: '100%' }}>
-                  <CarouselsC
-                    currentOKR={currentOKR}
-                    setCurrentOKR={setCurrentOKR}
-                    okrs={okrs}
-                  />
-                </div>
-              </CContainer>
-            </CCardBody>
-          </CCard>
-        </CCol>
+        <CButton
+          color="light"
+          variant="ghost"
+          onClick={handleNext}
+          style={{
+            width: '2rem',
+            height: '2rem',
+            padding: 0,
+            minWidth: 'unset',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <span
+            className="carousel-control-next-icon"
+            style={{
+              width: '1.5rem',
+              height: '1.5rem',
+              filter: 'brightness(0)',
+              marginTop: '4px',
+            }}
+          />
+        </CButton>
+      </div>
 
-        {/* Right Column */}
+              {/*Buttons for Objectives*/}
+      <div>
+          <CButton
+          color="light"
+          variant="ghost"
+          onClick={() => alert(`Add List of Objectives: ${okrs[currentOKR]?.title}`)}
+        >
+          <CIcon icon={cilList} />
+        </CButton>
+        <CButton
+          color="light"
+          variant="ghost"
+          onClick={() => alert('Add Objective')}
+          className="me-2"
+        >
+          <CIcon icon={cilPlus} />
+        </CButton>
+        <CButton
+          color="light"
+          variant="ghost"
+          onClick={() => alert(`Edit Objective: ${okrs[currentOKR]?.title}`)}
+        >
+          <CIcon icon={cilPencil} />
+        </CButton>
+      </div>
+    </CCardHeader>
+
+    {/* Bottom Section: Graph/Chart for current Objective */}
+    <CCardBody style={{ minHeight: 500 }}>
+
+      {/* Graph in Objective Section */}
+<div
+  style={{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '450px'
+  }}
+>
+  <CChart
+    type="doughnut"
+    data={{
+      labels: ['Completed', 'Remaining'],
+      datasets: [
+        {
+          backgroundColor: ['#4caf50', '#e0e0e0'],
+          data: [
+            okrs[currentOKR]?.progress || 0,
+            100 - (okrs[currentOKR]?.progress || 0),
+          ],
+        },
+      ],
+    }}
+    options={{
+      plugins: {
+        legend: {
+          position: 'bottom',
+        },
+      },
+      cutout: '70%',
+    }}
+    style={{ maxHeight: '200px', width: '200px' }}
+  />
+</div>
+
+    </CCardBody>
+  </CCard>
+</CCol>
+
         <CCol sm={7}>
           {/* Initiatives Section at the top */}
           <InitiativesSection initiatives={initiatives} />
 
-          {/* Your original first right column card */}
+          {/* Bottom right column card */}
           <CCard>
             <CCardHeader>
               <CNav variant="tabs" className="card-header-tabs">
