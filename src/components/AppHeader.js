@@ -60,7 +60,7 @@ const AppHeader = () => {
               type="text"
               className="form-control form-control-sm me-2"
               placeholder="Search..."
-              style={{ width: '800px' }}
+              style={{ width: '700px' }}
             />
             <button className="btn btn-sm btn-primary">
 <CIcon icon={cilMagnifyingGlass} size="lg" />

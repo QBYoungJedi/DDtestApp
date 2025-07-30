@@ -24,7 +24,23 @@ import {
   cilArrowLeft,
   cilArrowRight,
 } from '@coreui/icons'
-import { CChart } from '@coreui/react-chartjs'
+import CarouselsC from '../carousels/CarouselsC'
+import Rtextarea from '../../forms/Rtextarea'
+
+// Placeholder for InitiativeGraph
+const InitiativeGraph = ({ initiative }) => (
+  <div style={{ height: 200, backgroundColor: '#eef3f7' }}>
+    <p className="text-center pt-5">Graph for: {initiative.title}</p>
+  </div>
+)
+
+// Placeholder for InitiativeComments
+const InitiativeComments = ({ initiative }) => (
+  <div style={{ height: 200, backgroundColor: '#f7f9fb', padding: '1rem', overflowY: 'auto' }}>
+    <p>Comments related to: {initiative.title}</p>
+    {/* Replace with your comment components */}
+  </div>
+)
 
 const InitiativesSection = ({ initiatives }) => {
   if (!initiatives || initiatives.length === 0) {
@@ -370,6 +386,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives }) => {
         </CCol>
 
         <CCol sm={7}>
+
           {/* Initiatives Section at the top */}
           <InitiativesSection initiatives={initiatives} />
 
@@ -394,5 +411,4 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives }) => {
     </CContainer>
   )
 }
-
 export default Cards
