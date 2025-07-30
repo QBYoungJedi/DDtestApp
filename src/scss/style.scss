@@ -65,3 +65,24 @@ body {
     --cui-footer-bg: var(--cui-body-bg);
   }
 }
+// Remove hover shadow and make arrow black on hover
+.carousel-control-prev,
+.carousel-control-next {
+  box-shadow: none !important;
+  background-color: transparent !important;
+  border: none !important;
+
+  &:hover {
+    box-shadow: none !important;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    filter: brightness(0.4); // default darker gray arrow
+  }
+
+  &:hover .carousel-control-prev-icon,
+  &:hover .carousel-control-next-icon {
+    filter: brightness(0); // fully black on hover
+  }
+}

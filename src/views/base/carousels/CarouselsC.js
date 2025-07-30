@@ -13,22 +13,20 @@ import {
 import Pie from '../../charts/Pie'
 import Bar from '../../charts/Bar'
 
-
+//controls the team's graph carousel on the dashboard
 const CarouselsC = () => {
-  return (
-<CContainer>    
-  <CCarousel controls indicators>
-                <CCarouselItem>
-                <Pie/>
-                </CCarouselItem>
-                <CCarouselItem>
-                <Bar/>
-                </CCarouselItem>
-                <CCarouselItem>
-                <Pie/>
-                </CCarouselItem>
-   </CCarousel>
-</CContainer>              
+return (
+    <CCarousel controls indicators style={{ width: '100%' }}>
+      <CCarouselItem style={{ width: '100%' }}>
+        <Pie />
+      </CCarouselItem>
+      <CCarouselItem style={{ width: '100%' }}>
+        <Bar />
+      </CCarouselItem>
+      <CCarouselItem style={{ width: '100%' }}>
+        <Pie />
+      </CCarouselItem>
+    </CCarousel>             
   )
 }
 
