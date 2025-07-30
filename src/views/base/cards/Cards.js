@@ -24,8 +24,8 @@ import {
   cilArrowLeft,
   cilArrowRight,
 } from '@coreui/icons'
-import CarouselsC from '../carousels/CarouselsC'
-import Rtextarea from '../../forms/Rtextarea'
+import { CChart } from '@coreui/react-chartjs'
+
 
 // Placeholder for InitiativeGraph
 const InitiativeGraph = ({ initiative }) => (
