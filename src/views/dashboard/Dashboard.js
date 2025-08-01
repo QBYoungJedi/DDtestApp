@@ -1,35 +1,13 @@
-import classNames from 'classnames'
-import {
-  CAvatar,
-  CButton,
-  CButtonGroup,
-  CCard,
-  CCardBody,
-  CCardFooter,
-  CCardHeader,
-  CCol,
-  CContainer,
-  CProgress,
-  CRow,
-  CTable,
-  CTableBody,
-  CTableDataCell,
-  CTableHead,
-  CTableHeaderCell,
-  CTableRow,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-
 import Carousels from '../base/carousels/Carousels'
 import React, { useState } from 'react'
 import Cards from '../base/cards/Cards'
-import CarouselsC from '../base/carousels/CarouselsC'
 import { initiatives } from 'src/DummyData/initiativesdata.js'
+import { comokr } from '../../DummyData/companyobj'
 
 const okrs = [
-  { title: 'Live Safer', progress: 65 },
-  { title: 'Stay Healthy', progress: 80 },
-  { title: 'Learn Continuously', progress: 40 },
+  { title: 'Live Safer', progress: 65, keyresult: " 1. Use the crosswalks guys at least 90% of the time!" },
+  { title: 'Stay Healthy', progress: 80, keyresult: "1. Exercise 30 minutes a day" },
+  { title: 'Learn Continuously', progress: 40, keyresult: "1. Pick up a book like once a week" },
 ]
 
 const Dashboard = () => {
@@ -44,8 +22,9 @@ const Dashboard = () => {
         okrs={okrs}
         initiatives={initiatives}
         teamObjectives={okrs}
+        comokr={comokr}
       />
-      <Carousels currentOKR={currentOKR} setCurrentOKR={setCurrentOKR} okrs={okrs} />
+      <Carousels currentOKR={currentOKR} setCurrentOKR={setCurrentOKR} comokr={comokr} />
     </>
   )
 }

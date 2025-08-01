@@ -15,6 +15,7 @@ import {
   CNav,
   CNavItem,
   CNavLink,
+  CFormTextarea,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
@@ -378,6 +379,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
   const handlePrev = () => {
     setCurrentOKR((prev) => (prev - 1 + okrs.length) % okrs.length)
   }
+ 
 
   return (
     <CContainer style={{ marginBottom: 32 }}>
@@ -490,7 +492,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                     },
                     cutout: '70%',
                   }}
-                  style={{ maxHeight: '200px', width: '200px' }}
+                  style={{ maxHeight: '250px', width: '250px' }}
                 />
               </div>
             </CCardBody>
@@ -504,19 +506,81 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
 
           {/* Bottom right column card */}
           <CCard>
-            <CCardHeader>
-              <CNav variant="tabs" className="card-header-tabs">
-                <CNavItem>
-                  <CNavLink href="#" active>
-                    Active
-                  </CNavLink>
-                </CNavItem>
-                <CNavItem>
-                  <CNavLink href="#">Link</CNavLink>
-                </CNavItem>
-              </CNav>
+              <CCardHeader>
+              <div className="d-flex justify-content-between align-items-start">
+                {/* Empty space to push icons to right */}
+                <div></div>
+                <div>
+                  <CButton
+                    color="light"
+                    variant="ghost"
+                    onClick={() => alert(`Add List of Objectives: ${okrs[currentOKR]?.title}`)}
+                  >
+                    <CIcon icon={cilList} />
+                  </CButton>
+                  <CButton
+                    color="light"
+                    variant="ghost"
+                    onClick={() => alert('Add Objective')}
+                    className="me-2"
+                  >
+                    <CIcon icon={cilPlus} />
+                  </CButton>
+                  <CButton
+                    color="light"
+                    variant="ghost"
+                    onClick={() => alert(`Edit Objective: ${okrs[currentOKR]?.title}`)}
+                  >
+                    <CIcon icon={cilPencil} />
+                  </CButton>
+                </div>
+              </div>
+
+              {/* Second row: arrows and objectives */}
+              <div className="d-flex align-items-center mt-3">
+                <CButton
+                  color="light"
+                  variant="ghost"
+                  onClick={handlePrev}
+                  style={{
+                    width: '2rem',
+                    height: '2rem',
+                    padding: 0,
+                    minWidth: 'unset',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <CIcon icon={cilArrowLeft} style={{ width: '1.5rem', height: '1.5rem' }} />
+                </CButton>
+
+                <div className="flex-grow-1 text-center fw-bold fs-5">
+                  {okrs[currentOKR]?.title}
+                </div>
+
+                <CButton
+                  color="light"
+                  variant="ghost"
+                  onClick={handleNext}
+                  style={{
+                    width: '2rem',
+                    height: '2rem',
+                    padding: 0,
+                    minWidth: 'unset',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <CIcon icon={cilArrowRight} style={{ width: '1.5rem', height: '1.5rem' }} />
+                </CButton>
+              </div>
             </CCardHeader>
-            <CCardBody style={{ minHeight: 185 }} />
+            <CCardBody style={{ minHeight: 185 }}>
+              <CFormTextarea readOnly rows={4} className='fw-semibold, fs-3' value={okrs[currentOKR]?.keyresult}>
+              </CFormTextarea>
+            </CCardBody>
           </CCard>
         </CCol>
       </CRow>
