@@ -24,18 +24,12 @@ import Carousels from '../base/carousels/Carousels'
 import React, { useState } from 'react'
 import Cards from '../base/cards/Cards'
 import CarouselsC from '../base/carousels/CarouselsC'
+import { initiatives } from 'src/DummyData/initiativesdata.js'
 
 const okrs = [
   { title: 'Live Safer', progress: 65 },
   { title: 'Stay Healthy', progress: 80 },
   { title: 'Learn Continuously', progress: 40 },
-]
-
-// ✅ Dummy initiatives data
-const initiatives = [
-  { title: 'Install Smoke Detectors', progress: 30 },
-  { title: 'Exercise 3x a Week', progress: 60 },
-  { title: 'Complete Safety Training', progress: 80 },
 ]
 
 const Dashboard = () => {
@@ -49,6 +43,7 @@ const Dashboard = () => {
         setCurrentOKR={setCurrentOKR}
         okrs={okrs}
         initiatives={initiatives}
+        teamObjectives={okrs}
       />
       <Carousels currentOKR={currentOKR} setCurrentOKR={setCurrentOKR} okrs={okrs} />
     </>
