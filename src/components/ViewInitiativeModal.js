@@ -39,12 +39,13 @@ const ViewInitiativeModal = ({ visible, onClose, currentUser }) => {
       </CModalHeader>
       <CModalBody>
         {/* Header bar */}
-        <CRow className="mb-2 fw-bold text-secondary text-uppercase border-bottom pb-2 text-center">
-          <CCol md="1">★</CCol>
-          <CCol md="5">Initiative</CCol>
-          <CCol md="3">Due Date</CCol>
-          <CCol md="3">Progress</CCol>
-        </CRow>
+<CRow className="mb-2 fw-bold text-secondary text-uppercase border-bottom pb-2">
+  <CCol md="2" className="d-flex justify-content-center align-items-center">FAV</CCol>
+  <CCol md="4" className="text-center">Initiative</CCol>
+  <CCol md="3" className="text-center">Due Date</CCol>
+  <CCol md="3" className="text-center">Progress</CCol>
+</CRow>
+
 
         <CListGroup flush>
           {userInitiatives.map((item) => (
