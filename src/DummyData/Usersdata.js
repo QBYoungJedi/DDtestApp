@@ -8,7 +8,7 @@ import avatar6 from 'src/assets/images/avatars/6.jpg'
 export const teamMembers = [
   {
     id: 1,
-    name: 'Tania Navarro',
+    name: 'Donshay Somborn',
     avatar: avatar1,
     email: 'yiorgos@1898.com',
     department: 'HR',

@@ -46,6 +46,15 @@ const InitiativesSection = ({ initiatives, teamObjectives }) => {
     return <div>No initiatives available</div>
   }
 
+  const user = teamMembers[0]
+  const filteredInitiatives = initiatives.filter(
+    (initiative) => initiative.owner?.id === user.id
+  )
+
+  if (!filteredInitiatives || filteredInitiatives.length === 0) {
+    return <div>No initiatives assigned to {user.name}</div>
+  }
+
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedObjective, setSelectedObjective] = useState('');
   const [showAddModal, setShowAddModal] = useState(false)
@@ -57,13 +66,13 @@ const [metricType, setMetricType] = useState('');
 const [metricValue, setMetricValue] = useState('')
 
   // Making arrows usable
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + initiatives.length) % initiatives.length)
-  }
+const handlePrev = () => {
+  setCurrentIndex((prev) => (prev - 1 + filteredInitiatives.length) % filteredInitiatives.length)
+}
+const handleNext = () => {
+  setCurrentIndex((prev) => (prev + 1) % filteredInitiatives.length)
+}
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % initiatives.length)
-  }
 
   //Icons
   const handleViewAll = () => {
@@ -89,7 +98,7 @@ const [metricValue, setMetricValue] = useState('')
     alert(`Edit initiative: ${initiatives[currentIndex].title}`)
   }
 
-  const currentInitiative = initiatives[currentIndex]
+  const currentInitiative = filteredInitiatives[currentIndex]
   const [showViewInitiativesModal, setShowViewInitiativesModal] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
 
