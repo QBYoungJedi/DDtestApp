@@ -10,6 +10,7 @@ import {
   CNav,
   CNavItem,
   CNavLink,
+  CTooltip,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
@@ -21,8 +22,11 @@ import {
 } from '@coreui/icons'
 import { CChart } from '@coreui/react-chartjs'
 import { teamMembers } from 'src/DummyData/Usersdata.js'
+import { initiatives } from 'src/DummyData/initiativesdata.js'
 import AddInitiativeModal from 'src/components/AddInitiativeModal.js'
 import ViewInitiativeModal from 'src/components/ViewInitiativeModal.js'
+import ConfettiComponent from 'src/components/ConfettiComponent.js'
+import EditableDonut from 'src/views/Charts/EditableDonut.js'
 
 
 
@@ -106,28 +110,33 @@ const handleNext = () => {
 
   return (
     <>
+    <ConfettiComponent trigger={currentInitiative?.progress === 100} />
       <CCard style={{ marginBottom: 32 }}>
         <CCardHeader>
           <div className="d-flex justify-content-end">
-<CButton
-  color="light"
-  variant="ghost"
-  onClick={() => {
-    setCurrentUser(teamMembers[0])
-    setShowViewInitiativesModal(true)
-  }}
-  className="me-2"
->
-  <CIcon icon={cilList} />
-</CButton>
-
-
+<CTooltip content="View All My initiatives" placement="top">
+  <CButton
+    color="light"
+    variant="ghost"
+    onClick={() => {
+      setCurrentUser(teamMembers[0])
+      setShowViewInitiativesModal(true)
+    }}
+    className="me-2"
+  >
+    <CIcon icon={cilList} />
+  </CButton>
+</CTooltip>
+<CTooltip content="Add A New Initiative" placement="top">
             <CButton color="light" variant="ghost" onClick={handleAdd} className="me-2">
               <CIcon icon={cilPlus} />
             </CButton>
+            </CTooltip>
+            <CTooltip content="Edit Initiative" placement="top">
             <CButton color="light" variant="ghost" onClick={handleEdit}>
               <CIcon icon={cilPencil} />
             </CButton>
+            </CTooltip>
           </div>
 
           <div className="d-flex justify-content-center align-items-center mt-3">
@@ -183,30 +192,9 @@ const handleNext = () => {
                   height: '100%',
                 }}
               >
-                <CChart
-                  type="doughnut"
-                  data={{
-                    labels: ['Completed', 'Remaining'],
-                    datasets: [
-                      {
-                        backgroundColor: ['#7b828cff', '#e0e0e0ff'],
-                        data: [
-                          currentInitiative?.progress || 0,
-                          100 - (currentInitiative?.progress || 0),
-                        ],
-                      },
-                    ],
-                  }}
-                  options={{
-                    plugins: {
-                      legend: {
-                        position: 'bottom',
-                      },
-                    },
-                    cutout: '70%',
-                  }}
-                  style={{ maxHeight: '200px', width: '200px' }}
-                />
+<EditableDonut
+  initialProgress={currentInitiative?.progress || 0}
+/>
               </div>
             </CCol>
 

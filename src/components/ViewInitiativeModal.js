@@ -32,6 +32,14 @@ const ViewInitiativeModal = ({ visible, onClose, currentUser }) => {
     .filter((i) => i.owner?.id === currentUser.id)
     .sort((a, b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0)) // Favorites first
 
+    const updateProgress = (id, newProgress) => {
+  setFavoriteInitiatives((prev) =>
+    prev.map((item) =>
+      item.id === id ? { ...item, progress: newProgress } : item
+    )
+  )
+}
+
   return (
     <CModal visible={visible} onClose={onClose} size="lg">
       <CModalHeader>
@@ -68,9 +76,49 @@ const ViewInitiativeModal = ({ visible, onClose, currentUser }) => {
                 </CCol>
                 <CCol md="5">{item.title}</CCol>
                 <CCol md="3">{item.dueDate}</CCol>
-                <CCol md="3">
-                  <CProgress value={item.progress} color="info" />
-                </CCol>
+<CCol md="3">
+  <div
+    className="progress"
+    style={{
+      backgroundColor: '#acacacff',
+      borderRadius: '0.375rem',
+      height: '1.5rem',
+      cursor: 'pointer',
+      position: 'relative',
+      width: '100%',
+    }}
+    onClick={(e) => {
+      const rect = e.currentTarget.getBoundingClientRect()
+      const clickX = e.clientX - rect.left
+      const newProgress = Math.round((clickX / rect.width) * 100)
+      updateProgress(item.id, newProgress)
+    }}
+  >
+    <div
+      style={{
+        width: `${item.progress}%`,
+        backgroundColor: '#025ddbff',
+        height: '100%',
+        borderRadius: '0.375rem',
+        transition: 'width 0.2s ease-in-out',
+      }}
+    ></div>
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: '0.75rem',
+        lineHeight: '1.5rem',
+      }}
+    >
+      {item.progress}%
+    </div>
+  </div>
+</CCol>
               </CRow>
             </CListGroupItem>
           ))}

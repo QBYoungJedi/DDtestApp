@@ -15,7 +15,7 @@ export const initiatives = [
     dueDate: '10-01-2025',
     progress: 60,
     isFavorite: true,
-    owner: teamMembers[1],
+    owner: teamMembers[0],
   },
   {
     id: 3,
