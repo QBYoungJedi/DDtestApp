@@ -1,0 +1,51 @@
+/* src/App.css */
+
+/* Root container using MUI font and neutral background */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #fafafa; /* Matches MUI background.default */
+  color: rgba(0, 0, 0, 0.87); /* MUI primary text color */
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+/* Header styled like MUI AppBar with primary color */
+.App-header {
+  background-color: #1976d2; /* MUI primary main */
+  color: white;
+  padding: 16px 24px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(25, 118, 210, 0.4); /* subtle shadow */
+}
+
+/* Main content container with MUI spacing */
+.App-main {
+  flex-grow: 1;
+  padding: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Footer with MUI grey background and subtle border */
+.App-footer {
+  padding: 16px 24px;
+  background-color: #f5f5f5; /* MUI grey[100] */
+  color: rgba(0, 0, 0, 0.6); /* MUI secondary text color */
+  text-align: center;
+  font-size: 0.875rem;
+  border-top: 1px solid #e0e0e0; /* MUI grey[300] */
+}
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .App-header {
+    font-size: 1.25rem; /* Slightly smaller on small screens */
+  }
+
+  .App-main {
+    padding: 16px; /* Less padding on small screens */
+  }
+}
