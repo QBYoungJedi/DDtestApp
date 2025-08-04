@@ -578,7 +578,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
               </div>
             </CCardHeader>
             <CCardBody style={{ minHeight: 185 }}>
-              <CFormTextarea readOnly rows={4} className='fw-semibold, fs-3' value={okrs[currentOKR]?.keyresult}>
+              <CFormTextarea readOnly rows={4} className='fw-semibold, fs-3'  value={okrs[currentOKR]?.keyresult}>
               </CFormTextarea>
             </CCardBody>
           </CCard>
