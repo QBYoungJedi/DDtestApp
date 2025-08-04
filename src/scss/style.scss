@@ -65,24 +65,22 @@ body {
     --cui-footer-bg: var(--cui-body-bg);
   }
 }
-// Remove hover shadow and make arrow black on hover
-.carousel-control-prev,
-.carousel-control-next {
-  box-shadow: none !important;
+/* Arrow button styling */
+.arrow-button {
   background-color: transparent !important;
   border: none !important;
+  box-shadow: none !important;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  &:hover {
-    box-shadow: none !important;
-  }
+.arrow-button svg {
+  filter: brightness(0.4); /* default darker gray */
+  transition: filter 0.2s ease;
+}
 
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-    filter: brightness(0.4); // default darker gray arrow
-  }
-
-  &:hover .carousel-control-prev-icon,
-  &:hover .carousel-control-next-icon {
-    filter: brightness(0); // fully black on hover
-  }
+.arrow-button:hover svg {
+  filter: brightness(0); /* fully black on hover */
 }

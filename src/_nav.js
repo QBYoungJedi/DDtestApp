@@ -32,12 +32,6 @@ const _nav = [
     to: '/teams', //Link to settings page when created
     icon: <CIcon icon={cilGroup} customClassName="nav-icon" />,
   },
-{
-    component: CNavItem,
-    name: 'Reports',
-    to: '/Reports', //Change to reports page when created
-    icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
-  },
   {
     component: CNavItem,
     name: 'Settings',

@@ -111,7 +111,12 @@ const ViewObjectivesModal = ({ visible, onClose, currentUser }) => {
   return (
     <CModal visible={visible} onClose={onClose} size="xl">
       <CModalHeader>
-        <CModalTitle>My Team's Objectives</CModalTitle>
+        <CModalTitle className="d-flex justify-content-between align-items-center w-100">My Team's Objectives</CModalTitle>
+              <div className="d-flex justify-content-end w-100 px-4 mt-2">
+  <CButton color="warning" >
+    Export
+  </CButton>
+</div>
       </CModalHeader>
       <CModalBody>
         <CRow className="mb-2 fw-bold text-secondary text-uppercase border-bottom pb-2 text-center">
