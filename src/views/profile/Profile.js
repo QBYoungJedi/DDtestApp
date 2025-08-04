@@ -8,58 +8,43 @@ import {
   CToaster,
   CToastBody,
   CToast,
-  CFormTextarea,
   CFormInput,
-  CForm
+  CForm,
+  CTooltip,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilThumbUp } from '@coreui/icons'
-import defaultAvatar from 'src/assets/images/avatars/Donshay.jpg'
+import { teamMembers } from 'src/DummyData/Usersdata.js'
+import { notificationsData } from 'src/DummyData/NotificationsData.js'
 
 const Profile = () => {
-  const [user, setUser] = useState({
-    name: 'Donshay',
-    profilePicture: defaultAvatar,
-  })
-
-  const [notifications, setNotifications] = useState(
-    Array.from({ length: 15 }).map((_, i) => ({
-      id: i + 1,
-      message: `Notification message #${i + 1}`,
-      liked: false,
-      comments: [],
-      tempComment: '',
-    }))
-  );
-  // Checkbox handler
-const toggleRead = (id) => {
-  setNotifications((prev) =>
-    prev.map((n) => (n.id === id ? { ...n, read: !n.read } : n))
-  );
-};
-
-  const [toastEl, setToastEl] = useState(null)
-
-  const handleProfilePicChange = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      const url = URL.createObjectURL(file)
-      setUser({ ...user, profilePicture: url })
-    }
+  const currentUser = teamMembers[0] || {
+    name: 'Username',
+    avatar: 'https://via.placeholder.com/150',
   }
+
+  const [notifications, setNotifications] = useState(notificationsData)
+  const [toastEl, setToastEl] = useState(null)
 
   const toggleLike = (id) => {
     setNotifications((prev) =>
+      prev.map((n) => {
+        if (n.id === id) {
+          const isLiking = !n.liked
+          addToast(isLiking ? 'You liked a notification!' : 'You unliked it.', 'warning')
+          return { ...n, liked: isLiking }
+        }
+        return n
+      })
+    )
+  }
+
+  const toggleReadStatus = (id) => {
+    setNotifications((prev) =>
       prev.map((n) =>
-        n.id === id ? { ...n, liked: !n.liked } : n
+        n.id === id ? { ...n, read: !n.read } : n
       )
     )
-
-    const likedNotification = notifications.find((n) => n.id === id)
-    if (likedNotification) {
-      const isLiking = !likedNotification.liked
-      addToast(isLiking ? 'You liked a notification!' : 'You unliked it.', 'warning')
-    }
   }
 
   const handleCommentChange = (id, value) => {
@@ -96,80 +81,111 @@ const toggleRead = (id) => {
     )
   }
 
+  const markAllAsRead = () => {
+    setNotifications((prev) =>
+      prev.map((n) => ({ ...n, read: true }))
+    )
+    addToast('All notifications marked as read')
+  }
+
   return (
     <div className="container mt-4">
+      {/* Profile Header */}
       <div className="text-center mb-4">
-        <label className="position-relative d-inline-block">
-          <CImage
-            src={user.profilePicture}
-            width={150}
-            height={150}
-            className="border"
-            style={{ borderRadius: '200%', cursor: 'pointer' }}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleProfilePicChange}
-            style={{ display: 'none' }}
-            id="profilePicInput"
-          />
-          <small
-            className="position-absolute bottom-0 end-0 bg-white border rounded px-1"
-            style={{ cursor: 'pointer' }}
-            onClick={() =>
-              document.getElementById('profilePicInput').click()
-            }
-          ></small>
-        </label>
-        <h2 className="mt-3">Welcome Back, {user.name}!</h2>
+        <CImage
+          src={currentUser.avatar}
+          width={150}
+          height={150}
+          className="border"
+          style={{ borderRadius: '50%', objectFit: 'cover' }}
+        />
+        <h2 className="mt-3">Welcome Back, {currentUser.name}!</h2>
       </div>
 
       <CCard>
-        <CCardHeader>Notifications</CCardHeader>
-        <CCardBody style={{ maxHeight: '400px', overflowY: 'auto' }}>
+        <CCardHeader className="d-flex justify-content-between align-items-center">
+          <span className="fw-semibold">Notifications</span>
+          <CButton size="sm" color="success" onClick={markAllAsRead}>
+            Mark all as read
+          </CButton>
+        </CCardHeader>
+
+        {/* NO SCROLLING HERE */}
+        <CCardBody>
           {notifications.map((note) => (
             <div
               key={note.id}
-              className="border-bottom py-3 px-2 rounded"
-              style={{ marginBottom: '1rem' }}
+              className={`mb-3 p-3 rounded shadow-sm d-flex align-items-start ${
+                note.read ? 'bg-white' : 'bg-light border-start border-4 border-primary'
+              }`}
+              style={{
+                transition: 'all 0.3s ease-in-out',
+                opacity: note.read ? 0.8 : 1,
+                fontSize: '0.95rem',
+              }}
             >
-              <div className="fw-medium mb-4">{note.message}</div>
+              {/* Read toggle bar */}
+              <div
+                onClick={() => toggleReadStatus(note.id)}
+                title={note.read ? 'Mark as unread' : 'Mark as read'}
+                style={{
+                  width: '20px',
+                  height: '100%',
+                  cursor: 'pointer',
+                  marginRight: '1rem',
+                  backgroundColor: note.read ? '#dee2e6' : '#0d6efd',
+                  borderRadius: '5px',
+                }}
+              ></div>
 
-              {/* Display submitted comments */}
-              {note.comments.length > 0 && (
-                <ul className="list-unstyled mb-2 ps-3">
-                  {note.comments.map((comment, index) => (
-                    <li key={index} className="text-muted">
-                      • {comment}
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {/* Notification content */}
+              <div style={{ flex: 1 }}>
+                <div className="fw-medium mb-2">{note.message}</div>
 
-              {/* Like and comment */}
-              <div className="d-flex flex-column flex-md-row gap-2 align-items-start">
-                <CButton
-                  size="m"
-                  color="primary"
-                  variant="outline"
-                  onClick={() => toggleLike(note.id)}
-                  title={note.liked ? 'Unlike' : 'Like'}
-                >
-                  <CIcon icon={cilThumbUp} className="me-1" />
-                  {note.liked ? 'Liked' : 'Like'}
-                </CButton>
+                {note.comments.length > 0 && (
+                  <ul className="list-unstyled mb-2 ps-3 text-muted">
+                    {note.comments.map((comment, index) => (
+                      <li key={index}>• {comment}</li>
+                    ))}
+                  </ul>
+                )}
 
-                <CForm>
-                  <CFormInput
-                  placeholder="Type comment"
-                  rows={1}
-                  value={note.tempComment}
-                  onChange={(e) => handleCommentChange(note.id, e.target.value)}
-                  onKeyDown={(e) => handleCommentSubmit(e, note.id)}
-                  style={{ width: '900px' }}
-                />
-                </CForm>
+                <div className="d-flex flex-column flex-md-row align-items-start gap-2">
+                  <CTooltip
+                    content={note.liked ? 'Click to unlike' : 'Click to like'}
+                    placement="top"
+                  >
+                    <CButton
+                      size="sm"
+                      color={note.liked ? 'primary' : 'secondary'}
+                      variant={note.liked ? 'solid' : 'outline'}
+                      onClick={() => toggleLike(note.id)}
+                      style={{
+                        backgroundColor: note.liked ? '#0d6efd' : 'transparent',
+                        color: note.liked ? '#fff' : undefined,
+                        borderColor: note.liked ? '#0d6efd' : undefined,
+                      }}
+                    >
+                      <CIcon icon={cilThumbUp} className="me-1" />
+                      {note.liked ? 'Liked' : 'Like'}
+                    </CButton>
+                  </CTooltip>
+
+                  <CForm className="flex-grow-1">
+                    <CFormInput
+                      placeholder="Type comment"
+                      size="sm"
+                      value={note.tempComment}
+                      onChange={(e) =>
+                        handleCommentChange(note.id, e.target.value)
+                      }
+                      onKeyDown={(e) =>
+                        handleCommentSubmit(e, note.id)
+                      }
+                      style={{ minWidth: '200px' }}
+                    />
+                  </CForm>
+                </div>
               </div>
             </div>
           ))}

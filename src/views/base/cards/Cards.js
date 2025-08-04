@@ -6,15 +6,11 @@ import {
   CCol,
   CRow,
   CButton,
-  CModal,
-  CModalHeader,
-  CModalTitle,
-  CModalBody,
-  CModalFooter,
   CContainer,
   CNav,
   CNavItem,
   CNavLink,
+  CTooltip,
   CFormTextarea,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
@@ -27,6 +23,12 @@ import {
 } from '@coreui/icons'
 import { CChart } from '@coreui/react-chartjs'
 import { teamMembers } from 'src/DummyData/Usersdata.js'
+import { initiatives } from 'src/DummyData/initiativesdata.js'
+import AddInitiativeModal from 'src/components/AddInitiativeModal.js'
+import ViewInitiativeModal from 'src/components/ViewInitiativeModal.js'
+import ConfettiComponent from 'src/components/ConfettiComponent.js'
+import EditableDonut from 'src/views/Charts/EditableDonut.js'
+import ViewObjectivesModal from 'src/components/ViewObjectivesModal.js'
 
 
 
@@ -50,26 +52,35 @@ const InitiativesSection = ({ initiatives, teamObjectives }) => {
     return <div>No initiatives available</div>
   }
 
+  const user = teamMembers[0]
+  const filteredInitiatives = initiatives.filter(
+    (initiative) => initiative.owner?.id === user.id
+  )
+
+  if (!filteredInitiatives || filteredInitiatives.length === 0) {
+    return <div>No initiatives assigned to {user.name}</div>
+  }
+
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedObjective, setSelectedObjective] = useState('');
   const [showAddModal, setShowAddModal] = useState(false)
   const [newInitiativeTitle, setNewInitiativeTitle] = useState('')
-  const [metrics, setMetrics] = useState([]);
-  const [tasks, setTasks] = useState([]);
 const [selectedOwner, setSelectedOwner] = useState('');
 const [dueDate, setDueDate] = useState('');
 const [metricName, setMetricName] = useState('');
 const [metricType, setMetricType] = useState('');
 const [metricValue, setMetricValue] = useState('')
 
-  // Making arrows usable
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + initiatives.length) % initiatives.length)
-  }
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % initiatives.length)
-  }
+
+  // Making arrows usable
+const handlePrev = () => {
+  setCurrentIndex((prev) => (prev - 1 + filteredInitiatives.length) % filteredInitiatives.length)
+}
+const handleNext = () => {
+  setCurrentIndex((prev) => (prev + 1) % filteredInitiatives.length)
+}
+
 
   //Icons
   const handleViewAll = () => {
@@ -95,22 +106,41 @@ const [metricValue, setMetricValue] = useState('')
     alert(`Edit initiative: ${initiatives[currentIndex].title}`)
   }
 
-  const currentInitiative = initiatives[currentIndex]
+  const currentInitiative = filteredInitiatives[currentIndex]
+  const [showViewInitiativesModal, setShowViewInitiativesModal] = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
+
+
 
   return (
     <>
+    <ConfettiComponent trigger={currentInitiative?.progress === 100} />
       <CCard style={{ marginBottom: 32 }}>
         <CCardHeader>
           <div className="d-flex justify-content-end">
-            <CButton color="light" variant="ghost" onClick={handleViewAll} className="me-2">
-              <CIcon icon={cilList} />
-            </CButton>
+<CTooltip content="View All My initiatives" placement="top">
+  <CButton
+    color="light"
+    variant="ghost"
+    onClick={() => {
+      setCurrentUser(teamMembers[0])
+      setShowViewInitiativesModal(true)
+    }}
+    className="me-2"
+  >
+    <CIcon icon={cilList} />
+  </CButton>
+</CTooltip>
+<CTooltip content="Add A New Initiative" placement="top">
             <CButton color="light" variant="ghost" onClick={handleAdd} className="me-2">
               <CIcon icon={cilPlus} />
             </CButton>
+            </CTooltip>
+            <CTooltip content="Edit Initiative" placement="top">
             <CButton color="light" variant="ghost" onClick={handleEdit}>
               <CIcon icon={cilPencil} />
             </CButton>
+            </CTooltip>
           </div>
 
           <div className="d-flex justify-content-center align-items-center mt-3">
@@ -166,30 +196,9 @@ const [metricValue, setMetricValue] = useState('')
                   height: '100%',
                 }}
               >
-                <CChart
-                  type="doughnut"
-                  data={{
-                    labels: ['Completed', 'Remaining'],
-                    datasets: [
-                      {
-                        backgroundColor: ['#7b828cff', '#e0e0e0ff'],
-                        data: [
-                          currentInitiative?.progress || 0,
-                          100 - (currentInitiative?.progress || 0),
-                        ],
-                      },
-                    ],
-                  }}
-                  options={{
-                    plugins: {
-                      legend: {
-                        position: 'bottom',
-                      },
-                    },
-                    cutout: '70%',
-                  }}
-                  style={{ maxHeight: '200px', width: '200px' }}
-                />
+<EditableDonut
+  initialProgress={currentInitiative?.progress || 0}
+/>
               </div>
             </CCol>
 
@@ -234,136 +243,41 @@ const [metricValue, setMetricValue] = useState('')
         </CCardBody>
       </CCard>
 
-      {/* Initiative "+" Modal */}
-<CModal visible={showAddModal} onClose={() => setShowAddModal(false)}>
-  <CModalHeader closeButton>
-    <CModalTitle>Add New Initiative</CModalTitle>
-  </CModalHeader>
-
-  <form onSubmit={handleAddSubmit}>
-    <CModalBody>
-  {/* Initiative Title */}
-  <div className="mb-3">
-    <label htmlFor="titleInput" className="form-label">Initiative Title</label>
-    <input
-      id="titleInput"
-      type="text"
-      className="form-control"
-      placeholder="Enter initiative title"
-      value={newInitiativeTitle}
-      onChange={(e) => setNewInitiativeTitle(e.target.value)}
-      required
-    />
-  </div>
-
-  {/* Team Objective */}
-  <div className="mb-3">
-    <label htmlFor="objectiveSelect" className="form-label">Link to Team Objective</label>
-    <select
-      id="objectiveSelect"
-      className="form-select"
-      value={selectedObjective}
-      onChange={(e) => setSelectedObjective(e.target.value)}
-      required
-    >
-      <option value="">Select your team’s objective</option>
-      {teamObjectives.map((obj) => (
-        <option key={obj.id} value={obj.id}>{obj.title}</option>
-      ))}
-    </select>
-  </div>
-
-  {/* Owner and Due Date */}
-  <div className="mb-3 d-flex gap-3">
-    <div className="flex-grow-1">
-      <label className="form-label">Owner</label>
-      <select
-  className="form-select"
-  value={selectedOwner}
-  onChange={(e) => setSelectedOwner(e.target.value)}
-  required
->
-  <option value="">Select owner</option>
-  {teamMembers.map((member) => (
-    <option key={member.id} value={member.name}>
-      {member.name}
-    </option>
-  ))}
-</select>
-
-    </div>
-
-    <div>
-      <label className="form-label">Due Date</label>
-      <input
-        type="date"
-        className="form-control"
-        value={dueDate}
-        onChange={(e) => setDueDate(e.target.value)}
-        required
-      />
-    </div>
-  </div>
-
-{/* Metric */}
-<div className="mb-3">
-  <label className="form-label">Metric</label>
-  <div className="d-flex gap-2">
-    {/* Metric Name */}
-    <input
-      type="text"
-      className="form-control"
-      placeholder="Metric name"
-      value={metricName}
-      onChange={(e) => setMetricName(e.target.value)}
-      required
-    />
-
-    {/* Metric Value */}
-    <input
-      type="number"
-      className="form-control"
-      style={{ width: '120px' }}
-      placeholder="Value"
-      value={metricValue}
-      onChange={(e) => setMetricValue(e.target.value)}
-      required
-    />
-
-    {/* Metric Type */}
-    <select
-      className="form-select"
-      style={{ width: '150px' }}
-      value={metricType}
-      onChange={(e) => setMetricType(e.target.value)}
-      required
-    >
-      <option value="">Type</option>
-      <option value="number">Number</option>
-      <option value="percentage">Percentage</option>
-      <option value="yesno">Yes/No</option>
-    </select>
-  </div>
-  </div>
-</CModalBody>
-    <CModalFooter>
-      <CButton color="secondary" type="button" onClick={handleAddCancel}>
-        Cancel
-      </CButton>
-      <CButton color="primary" type="submit">
-        Add
-      </CButton>
-    </CModalFooter>
-  </form>
-</CModal>
-
+      {/* Add An Initivative Modal*/}
+      <AddInitiativeModal
+  visible={showAddModal}
+  onClose={() => setShowAddModal(false)}
+  onSubmit={handleAddSubmit}
+  newInitiativeTitle={newInitiativeTitle}
+  setNewInitiativeTitle={setNewInitiativeTitle}
+  selectedObjective={selectedObjective}
+  setSelectedObjective={setSelectedObjective}
+  selectedOwner={selectedOwner}
+  setSelectedOwner={setSelectedOwner}
+  dueDate={dueDate}
+  setDueDate={setDueDate}
+  metricName={metricName}
+  setMetricName={setMetricName}
+  metricValue={metricValue}
+  setMetricValue={setMetricValue}
+  metricType={metricType}
+  setMetricType={setMetricType}
+  teamObjectives={teamObjectives}
+  teamMembers={teamMembers}
+/>
+<ViewInitiativeModal
+  visible={showViewInitiativesModal}
+  onClose={() => setShowViewInitiativesModal(false)}
+  currentUser={teamMembers[0]}
+/>
     </>
   )
 }
 
-{/*Dummy Data is on Dashboard.js*/}
+{/*Dummy Data is on Dashboard.js & DummyData*/}
 const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives }) => {
-  
+  const [showObjectivesModal, setShowObjectivesModal] = useState(false)
+
   if (!okrs || okrs.length === 0) {
     return <div>No OKRs available</div>
   }
@@ -393,13 +307,17 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                 {/* Empty space to push icons to right */}
                 <div></div>
                 <div>
-                  <CButton
-                    color="light"
-                    variant="ghost"
-                    onClick={() => alert(`Add List of Objectives: ${okrs[currentOKR]?.title}`)}
-                  >
-                    <CIcon icon={cilList} />
-                  </CButton>
+<CTooltip content="View Team's Objectives" placement="top">
+  <CButton
+    color="light"
+    variant="ghost"
+    onClick={() => setShowObjectivesModal(true)}
+    className="me-2"
+  >
+    <CIcon icon={cilList} />
+  </CButton>
+</CTooltip>
+
                   <CButton
                     color="light"
                     variant="ghost"
@@ -497,6 +415,12 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
               </div>
             </CCardBody>
           </CCard>
+          <ViewObjectivesModal
+  visible={showObjectivesModal}
+  onClose={() => setShowObjectivesModal(false)}
+  objectives={okrs}
+/>
+
         </CCol>
 
         <CCol sm={7}>
