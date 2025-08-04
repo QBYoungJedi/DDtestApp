@@ -6,6 +6,8 @@ import {
   CContainer,
   CImage,
 } from '@coreui/react'
+import { bottom } from '@popperjs/core'
+import { color } from 'chart.js/helpers'
 
 const Carousels = ({ currentOKR, setCurrentOKR, comokr }) => {
   const carouselRef = useRef(null)
@@ -33,7 +35,7 @@ const Carousels = ({ currentOKR, setCurrentOKR, comokr }) => {
           {comokr.map((comokr, index) => (
             <CCarouselItem key={index}>
               <CImage src='src\assets\images\white.jpg' className="w-100" height={300}/>
-              <CCarouselCaption className='text-black'>{comokr.title}</CCarouselCaption>
+              <CCarouselCaption style={{position: 'none', bottom: 115, color: 'black'}} className='fs-2'>{comokr.title}</CCarouselCaption>
             </CCarouselItem>
           ))}
         </CCarousel>

@@ -7,7 +7,7 @@ const AppFooter = () => {
     <CFooter className="px-4">
       <div className="ms-auto, float-start">
         <span className="me-1">Powered by</span>
-          Digital Dawn          
+          <strong>🌅 Digital Dawn</strong>          
       </div>
       <Ai/>
     </CFooter>
