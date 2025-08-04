@@ -1,11 +1,13 @@
 import React, { useRef } from 'react'
 import {
   CCarousel,
+  CCarouselCaption,
   CCarouselItem,
   CContainer,
+  CImage,
 } from '@coreui/react'
 
-const Carousels = ({ currentOKR, setCurrentOKR, okrs }) => {
+const Carousels = ({ currentOKR, setCurrentOKR, comokr }) => {
   const carouselRef = useRef(null)
 
   const handleSlideEnd = () => {
@@ -28,9 +30,10 @@ const Carousels = ({ currentOKR, setCurrentOKR, okrs }) => {
           onSlid={handleSlideEnd}
           activeIndex={currentOKR}
         >
-          {okrs.map((okr, index) => (
+          {comokr.map((comokr, index) => (
             <CCarouselItem key={index}>
-              <h4 className="text-center">{okr.title}</h4>
+              <CImage src='src\assets\images\white.jpg' className="w-100" height={300}/>
+              <CCarouselCaption className='text-black'>{comokr.title}</CCarouselCaption>
             </CCarouselItem>
           ))}
         </CCarousel>

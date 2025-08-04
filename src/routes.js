@@ -41,6 +41,8 @@ const Charts = React.lazy(() => import('./views/charts/Charts'))
 // Icons
 const CoreUIIcons = React.lazy(() => import('./views/icons/coreui-icons/CoreUIIcons'))
 const Flags = React.lazy(() => import('./views/icons/flags/Flags'))
+
+
 const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
 
 // Notifications
