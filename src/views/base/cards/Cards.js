@@ -18,9 +18,8 @@ import {
   cilPlus,
   cilPencil,
   cilList,
-  cilArrowLeft,
-  cilArrowRight,
 } from '@coreui/icons'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { CChart } from '@coreui/react-chartjs'
 import { teamMembers } from 'src/DummyData/Usersdata.js'
 import { initiatives } from 'src/DummyData/initiativesdata.js'
@@ -81,8 +80,6 @@ const handleNext = () => {
   setCurrentIndex((prev) => (prev + 1) % filteredInitiatives.length)
 }
 
-
-  //Icons
   const handleViewAll = () => {
     alert('View all initiatives here')
   }
@@ -148,6 +145,7 @@ const handleNext = () => {
               color="light"
               variant="ghost"
               onClick={handlePrev}
+              className = "arrow-button"
               style={{
                 width: '2rem',
                 height: '2rem',
@@ -158,7 +156,7 @@ const handleNext = () => {
                 justifyContent: 'center',
               }}
             >
-              <CIcon icon={cilArrowLeft} style={{ width: '1.5rem', height: '1.5rem' }} />
+              <ChevronLeft size={300} />
             </CButton>
 
             <div className="mx-3 fw-bold fs-5 text-center" style={{ minWidth: 150 }}>
@@ -179,7 +177,7 @@ const handleNext = () => {
                 justifyContent: 'center',
               }}
             >
-              <CIcon icon={cilArrowRight} style={{ width: '1.5rem', height: '1.5rem' }} />
+              <ChevronRight size={300} />
             </CButton>
           </div>
         </CCardHeader>
@@ -317,7 +315,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
     <CIcon icon={cilList} />
   </CButton>
 </CTooltip>
-
+<CTooltip content="Add An Objective" placement="top">
                   <CButton
                     color="light"
                     variant="ghost"
@@ -326,6 +324,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                   >
                     <CIcon icon={cilPlus} />
                   </CButton>
+                  </CTooltip>
                   <CButton
                     color="light"
                     variant="ghost"
@@ -352,7 +351,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                     justifyContent: 'center',
                   }}
                 >
-                  <CIcon icon={cilArrowLeft} style={{ width: '1.5rem', height: '1.5rem' }} />
+                  <ChevronLeft size={300} />
                 </CButton>
 
                 <div className="flex-grow-1 text-center fw-bold fs-5">
@@ -373,7 +372,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                     justifyContent: 'center',
                   }}
                 >
-                  <CIcon icon={cilArrowRight} style={{ width: '1.5rem', height: '1.5rem' }} />
+                  <ChevronRight size={300} />
                 </CButton>
               </div>
             </CCardHeader>
@@ -476,7 +475,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                     justifyContent: 'center',
                   }}
                 >
-                  <CIcon icon={cilArrowLeft} style={{ width: '1.5rem', height: '1.5rem' }} />
+                  <ChevronLeft size={300} />
                 </CButton>
 
                 <div className="flex-grow-1 text-center fw-bold fs-5">
@@ -497,7 +496,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                     justifyContent: 'center',
                   }}
                 >
-                  <CIcon icon={cilArrowRight} style={{ width: '1.5rem', height: '1.5rem' }} />
+                  <ChevronRight size={300} />
                 </CButton>
               </div>
             </CCardHeader>

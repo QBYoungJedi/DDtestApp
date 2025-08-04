@@ -23,7 +23,7 @@ const EditableDonut = ({ initialProgress = 0, onChange }) => {
 
   return (
     <div
-      /* removed b/c clicker is off onClick={handleClick} */
+      onClick={handleClick}
       style={{
         position: 'relative',
         width: '200px',
@@ -64,7 +64,7 @@ const EditableDonut = ({ initialProgress = 0, onChange }) => {
           position: 'absolute',
           top: '50%',
           left: '50%',
-          transform: 'translate(-50%, -150%)',
+          transform: 'translate(-50%, -160%)',
           fontSize: '1.5rem',
           fontWeight: 'bold',
           color: completedColor,
