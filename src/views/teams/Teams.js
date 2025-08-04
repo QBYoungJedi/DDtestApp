@@ -14,67 +14,20 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilPeople } from '@coreui/icons'
-
-import avatar1 from 'src/assets/images/avatars/1.jpg'
-import avatar2 from 'src/assets/images/avatars/2.jpg'
-import avatar3 from 'src/assets/images/avatars/3.jpg'
-import avatar4 from 'src/assets/images/avatars/4.jpg'
-import avatar5 from 'src/assets/images/avatars/5.jpg'
-import avatar6 from 'src/assets/images/avatars/6.jpg'
+import { teamMembers } from 'src/DummyData/Usersdata.js'
 
 const Teams = () => {
   const [searchText, setSearchText] = useState('')
 
-
-  {/* Static Data*/}
-  const tableExample = [
-      {
-    avatar: { src: avatar1, status: 'success' },
-    user: { name: 'Yiorgos Avraamu'},
-      email: 'yiorgos@1898.com',
-      phone: '123-456-7890',
-      department: 'HR',
-      manager: 'Eugne Krabs',
-    },
-    {
-      avatar: { src: avatar2 },
-      user: { name: 'Avram Tarasios' },
-      email: 'Avram.Tarasios@1898.com',
-      phone: '913-111-1111',
-      department: 'Engineering',
-      manager: 'Sandy Cheeks',
-    },
-    {
-      avatar: { src: avatar3 },
-      user: { name: 'Quintin Ed' },
-      department: 'Marketing',
-      manager: 'Larry Lobster',
-    },
-    {
-      avatar: { src: avatar4, },
-      user: { name: 'Enéas Kwadwo' },
-      department: 'HR',
-      manager: 'Eugne Krabs',
-    },
-    {
-      avatar: { src: avatar5, },
-      user: { name: 'Agapetus Tadeáš' },
-      department: 'Finance',
-      manager: 'Mr. Krabs',
-    },
-    {
-      avatar: { src: avatar6, },
-      user: { name: 'Friderik Dávid' },
-      department: 'Engineering',
-      manager: 'Sandy Cheeks',
-    },
-  ]
-
-  const filteredData = tableExample.filter((item) => {
+  // Filter teamMembers based on search, safely accessing name and department
+  const filteredData = teamMembers.filter((item) => {
     const search = searchText.toLowerCase()
+    // Adjust these to your actual data keys if different
+    const name = item.user?.name || item.name || '' // fallback if you have either structure
+    const department = item.department || ''
     return (
-      item.user.name.toLowerCase().includes(search) ||
-      item.department.toLowerCase().includes(search)
+      name.toLowerCase().includes(search) ||
+      department.toLowerCase().includes(search)
     )
   })
 
@@ -110,17 +63,16 @@ const Teams = () => {
             </CTableHead>
             <CTableBody>
               {filteredData.map((item, index) => (
-                <CTableRow key={index}>
+                <CTableRow key={item.id ?? index}>
                   <CTableDataCell className="text-center">
-                    <CAvatar size="md" src={item.avatar.src} />
+                    <CAvatar size="md" src={item.avatar?.src || item.avatar || ''} />
                   </CTableDataCell>
 
-                  {/* Table Static Data*/}
-                  <CTableDataCell>{item.user.name}</CTableDataCell>
-                  <CTableDataCell>{item.email}</CTableDataCell>
-                  <CTableDataCell>{item.phone}</CTableDataCell>
-                  <CTableDataCell>{item.department}</CTableDataCell>
-                  <CTableDataCell className="text-center">{item.manager}</CTableDataCell>
+                  <CTableDataCell>{item.user?.name || item.name || 'No Name'}</CTableDataCell>
+                  <CTableDataCell>{item.email || '—'}</CTableDataCell>
+                  <CTableDataCell>{item.phone || '—'}</CTableDataCell>
+                  <CTableDataCell>{item.department || '—'}</CTableDataCell>
+                  <CTableDataCell className="text-center">{item.manager || '—'}</CTableDataCell>
                 </CTableRow>
               ))}
             </CTableBody>

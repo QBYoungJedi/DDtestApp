@@ -6,15 +6,11 @@ import {
   CCol,
   CRow,
   CButton,
-  CModal,
-  CModalHeader,
-  CModalTitle,
-  CModalBody,
-  CModalFooter,
   CContainer,
   CNav,
   CNavItem,
   CNavLink,
+  CTooltip,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
@@ -25,6 +21,14 @@ import {
   cilArrowRight,
 } from '@coreui/icons'
 import { CChart } from '@coreui/react-chartjs'
+import { teamMembers } from 'src/DummyData/Usersdata.js'
+import { initiatives } from 'src/DummyData/initiativesdata.js'
+import AddInitiativeModal from 'src/components/AddInitiativeModal.js'
+import ViewInitiativeModal from 'src/components/ViewInitiativeModal.js'
+import ConfettiComponent from 'src/components/ConfettiComponent.js'
+import EditableDonut from 'src/views/Charts/EditableDonut.js'
+import ViewObjectivesModal from 'src/components/ViewObjectivesModal.js'
+
 
 
 // Placeholder for InitiativeGraph
@@ -42,23 +46,42 @@ const InitiativeComments = ({ initiative }) => (
   </div>
 )
 
-const InitiativesSection = ({ initiatives }) => {
+const InitiativesSection = ({ initiatives, teamObjectives }) => {
   if (!initiatives || initiatives.length === 0) {
     return <div>No initiatives available</div>
   }
 
+  const user = teamMembers[0]
+  const filteredInitiatives = initiatives.filter(
+    (initiative) => initiative.owner?.id === user.id
+  )
+
+  if (!filteredInitiatives || filteredInitiatives.length === 0) {
+    return <div>No initiatives assigned to {user.name}</div>
+  }
+
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [selectedObjective, setSelectedObjective] = useState('');
   const [showAddModal, setShowAddModal] = useState(false)
   const [newInitiativeTitle, setNewInitiativeTitle] = useState('')
+const [selectedOwner, setSelectedOwner] = useState('');
+const [dueDate, setDueDate] = useState('');
+const [metricName, setMetricName] = useState('');
+const [metricType, setMetricType] = useState('');
+const [metricValue, setMetricValue] = useState('')
 
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + initiatives.length) % initiatives.length)
-  }
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % initiatives.length)
-  }
 
+  // Making arrows usable
+const handlePrev = () => {
+  setCurrentIndex((prev) => (prev - 1 + filteredInitiatives.length) % filteredInitiatives.length)
+}
+const handleNext = () => {
+  setCurrentIndex((prev) => (prev + 1) % filteredInitiatives.length)
+}
+
+
+  //Icons
   const handleViewAll = () => {
     alert('View all initiatives here')
   }
@@ -82,22 +105,41 @@ const InitiativesSection = ({ initiatives }) => {
     alert(`Edit initiative: ${initiatives[currentIndex].title}`)
   }
 
-  const currentInitiative = initiatives[currentIndex]
+  const currentInitiative = filteredInitiatives[currentIndex]
+  const [showViewInitiativesModal, setShowViewInitiativesModal] = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
+
+
 
   return (
     <>
+    <ConfettiComponent trigger={currentInitiative?.progress === 100} />
       <CCard style={{ marginBottom: 32 }}>
         <CCardHeader>
           <div className="d-flex justify-content-end">
-            <CButton color="light" variant="ghost" onClick={handleViewAll} className="me-2">
-              <CIcon icon={cilList} />
-            </CButton>
+<CTooltip content="View All My initiatives" placement="top">
+  <CButton
+    color="light"
+    variant="ghost"
+    onClick={() => {
+      setCurrentUser(teamMembers[0])
+      setShowViewInitiativesModal(true)
+    }}
+    className="me-2"
+  >
+    <CIcon icon={cilList} />
+  </CButton>
+</CTooltip>
+<CTooltip content="Add A New Initiative" placement="top">
             <CButton color="light" variant="ghost" onClick={handleAdd} className="me-2">
               <CIcon icon={cilPlus} />
             </CButton>
+            </CTooltip>
+            <CTooltip content="Edit Initiative" placement="top">
             <CButton color="light" variant="ghost" onClick={handleEdit}>
               <CIcon icon={cilPencil} />
             </CButton>
+            </CTooltip>
           </div>
 
           <div className="d-flex justify-content-center align-items-center mt-3">
@@ -153,30 +195,9 @@ const InitiativesSection = ({ initiatives }) => {
                   height: '100%',
                 }}
               >
-                <CChart
-                  type="doughnut"
-                  data={{
-                    labels: ['Completed', 'Remaining'],
-                    datasets: [
-                      {
-                        backgroundColor: ['#7b828cff', '#e0e0e0ff'],
-                        data: [
-                          currentInitiative?.progress || 0,
-                          100 - (currentInitiative?.progress || 0),
-                        ],
-                      },
-                    ],
-                  }}
-                  options={{
-                    plugins: {
-                      legend: {
-                        position: 'bottom',
-                      },
-                    },
-                    cutout: '70%',
-                  }}
-                  style={{ maxHeight: '200px', width: '200px' }}
-                />
+<EditableDonut
+  initialProgress={currentInitiative?.progress || 0}
+/>
               </div>
             </CCol>
 
@@ -221,36 +242,41 @@ const InitiativesSection = ({ initiatives }) => {
         </CCardBody>
       </CCard>
 
-      {/* Initiative "+" Modal */}
-      <CModal visible={showAddModal} onClose={handleAddCancel}>
-        <CModalHeader closeButton>
-          <CModalTitle>Add New Initiative</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter initiative title"
-            value={newInitiativeTitle}
-            onChange={(e) => setNewInitiativeTitle(e.target.value)}
-          />
-        </CModalBody>
-        <CModalFooter>
-          <CButton color="secondary" onClick={handleAddCancel}>
-            Cancel
-          </CButton>
-          <CButton color="primary" onClick={handleAddSubmit}>
-            Add
-          </CButton>
-        </CModalFooter>
-      </CModal>
+      {/* Add An Initivative Modal*/}
+      <AddInitiativeModal
+  visible={showAddModal}
+  onClose={() => setShowAddModal(false)}
+  onSubmit={handleAddSubmit}
+  newInitiativeTitle={newInitiativeTitle}
+  setNewInitiativeTitle={setNewInitiativeTitle}
+  selectedObjective={selectedObjective}
+  setSelectedObjective={setSelectedObjective}
+  selectedOwner={selectedOwner}
+  setSelectedOwner={setSelectedOwner}
+  dueDate={dueDate}
+  setDueDate={setDueDate}
+  metricName={metricName}
+  setMetricName={setMetricName}
+  metricValue={metricValue}
+  setMetricValue={setMetricValue}
+  metricType={metricType}
+  setMetricType={setMetricType}
+  teamObjectives={teamObjectives}
+  teamMembers={teamMembers}
+/>
+<ViewInitiativeModal
+  visible={showViewInitiativesModal}
+  onClose={() => setShowViewInitiativesModal(false)}
+  currentUser={teamMembers[0]}
+/>
     </>
   )
 }
 
-{/*Dummy Data is on Dashboard.js*/}
-const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives }) => {
-  
+{/*Dummy Data is on Dashboard.js & DummyData*/}
+const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives }) => {
+  const [showObjectivesModal, setShowObjectivesModal] = useState(false)
+
   if (!okrs || okrs.length === 0) {
     return <div>No OKRs available</div>
   }
@@ -279,13 +305,17 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives }) => {
                 {/* Empty space to push icons to right */}
                 <div></div>
                 <div>
-                  <CButton
-                    color="light"
-                    variant="ghost"
-                    onClick={() => alert(`Add List of Objectives: ${okrs[currentOKR]?.title}`)}
-                  >
-                    <CIcon icon={cilList} />
-                  </CButton>
+<CTooltip content="View Team's Objectives" placement="top">
+  <CButton
+    color="light"
+    variant="ghost"
+    onClick={() => setShowObjectivesModal(true)}
+    className="me-2"
+  >
+    <CIcon icon={cilList} />
+  </CButton>
+</CTooltip>
+
                   <CButton
                     color="light"
                     variant="ghost"
@@ -383,12 +413,18 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives }) => {
               </div>
             </CCardBody>
           </CCard>
+          <ViewObjectivesModal
+  visible={showObjectivesModal}
+  onClose={() => setShowObjectivesModal(false)}
+  objectives={okrs}
+/>
+
         </CCol>
 
         <CCol sm={7}>
 
           {/* Initiatives Section at the top */}
-          <InitiativesSection initiatives={initiatives} />
+          <InitiativesSection initiatives={initiatives} teamObjectives={teamObjectives}/>
 
           {/* Bottom right column card */}
           <CCard>
