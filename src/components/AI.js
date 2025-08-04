@@ -1,14 +1,18 @@
     import React, { useState } from 'react'
-import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from '@coreui/react'
+import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle, CTooltip } from '@coreui/react'
+import CIcon from '@coreui/icons-react';
+import {cilFlower} from '@coreui/icons'
 
 
 const Ai = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CButton color="primary" style={{borderRadius:"50%", height: 20, width: 20}} onClick={() => setVisible(!visible)}>
-        
+     <CTooltip content="AI OKR coach" placement="top">
+      <CButton onClick={() => setVisible(!visible)}>
+        <CIcon icon={cilFlower}n size='xl'/>
       </CButton>
+     </CTooltip>
       <CModal
         className='m-0'
         alignment="center"
