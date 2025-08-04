@@ -7,7 +7,14 @@ import 'simplebar-react/dist/simplebar.min.css'
 
 import { CBadge, CNavLink, CSidebarNav } from '@coreui/react'
 
+// Import your dummy users data here
+import { teamMembers } from 'src/DummyData/Usersdata.js'
+
 export const AppSidebarNav = ({ items }) => {
+  // Example: select the first user as the current user
+  // You can customize this to get the logged-in user from context or props
+  const currentUser = teamMembers[0] || { name: 'Username', avatar: 'https://via.placeholder.com/150' }
+
   const navLink = (name, icon, badge, indent = false) => {
     return (
       <>
@@ -62,7 +69,6 @@ export const AppSidebarNav = ({ items }) => {
 
   const notificationCount = 3 // notification count for the profile picture
 
-// Profile picture with notification bubble
   return (
     <CSidebarNav as={SimpleBar}>
       <div
@@ -72,7 +78,7 @@ export const AppSidebarNav = ({ items }) => {
           textAlign: 'center',
         }}
       >
-        <Link to="/buttons" style={{ textDecoration: 'none' }}>
+        <Link to="/Profile" style={{ textDecoration: 'none' }}>
           <div
             style={{
               position: 'relative',
@@ -81,8 +87,8 @@ export const AppSidebarNav = ({ items }) => {
             }}
           >
             <img
-              src="src/assets/images/avatars/Donshay.jpg"
-              alt="User Profile"
+              src={currentUser.avatar || 'https://via.placeholder.com/150'}
+              alt={currentUser.name || 'User Profile'}
               style={{
                 width: '150px',
                 height: '150px',
@@ -115,7 +121,7 @@ export const AppSidebarNav = ({ items }) => {
             )}
           </div>
         </Link>
-        <p style={{ marginTop: '8px', fontWeight: 'bold' }}>Username</p>
+        <p style={{ marginTop: '8px', fontWeight: 'bold' }}>{currentUser.name || 'Username'}</p>
       </div>
 
       {items &&

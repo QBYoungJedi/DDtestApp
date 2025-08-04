@@ -25,7 +25,7 @@ import {
 } from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
-import { AppHeaderDropdown } from './header/index'
+
 
 const AppHeader = () => {
   const headerRef = useRef()
@@ -60,7 +60,7 @@ const AppHeader = () => {
               type="text"
               className="form-control form-control-sm me-2"
               placeholder="Search..."
-              style={{ width: '800px' }}
+              style={{ width: '700px' }}
             />
             <button className="btn btn-sm btn-primary">
 <CIcon icon={cilMagnifyingGlass} size="lg" />
@@ -125,5 +125,3 @@ const AppHeader = () => {
 }
 
 export default AppHeader
-
-//AppHeaderDropDown component is the profile picture and dropdown menu but removed
