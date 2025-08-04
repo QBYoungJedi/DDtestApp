@@ -3,6 +3,7 @@ import { teamMembers } from 'src/DummyData/Usersdata.js'
 export const initiatives = [
   {
     id: 1,
+    objectiveId: 1,
     title: 'Fix Mobile Responsiveness',
     dueDate: '09-15-2025',
     progress: 25,
@@ -11,6 +12,7 @@ export const initiatives = [
   },
   {
     id: 2,
+    objectiveId: 1,
     title: 'Update OKR Dashboard',
     dueDate: '10-01-2025',
     progress: 60,
@@ -19,6 +21,7 @@ export const initiatives = [
   },
   {
     id: 3,
+    objectiveId: 2,
     title: 'Launch Internal Newsletter',
     dueDate: '08-20-2026',
     progress: 80,
@@ -27,6 +30,7 @@ export const initiatives = [
   },
   {
     id: 4,
+    objectiveId: 2,
     title: 'Improve Onboarding Flow',
     dueDate: '09-30-2025',
     progress: 45,
@@ -35,6 +39,7 @@ export const initiatives = [
   },
   {
     id: 5,
+    objectiveId: 3,
     title: 'Upgrade Security Protocols',
     dueDate: '10-10-2025',
     progress: 10,
@@ -43,6 +48,7 @@ export const initiatives = [
   },
   {
     id: 6,
+    objectiveId: 3,
     title: 'Automate Quarterly Reporting',
     dueDate: '11-01-2025',
     progress: 70,

@@ -27,6 +27,7 @@ import AddInitiativeModal from 'src/components/AddInitiativeModal.js'
 import ViewInitiativeModal from 'src/components/ViewInitiativeModal.js'
 import ConfettiComponent from 'src/components/ConfettiComponent.js'
 import EditableDonut from 'src/views/Charts/EditableDonut.js'
+import ViewObjectivesModal from 'src/components/ViewObjectivesModal.js'
 
 
 
@@ -68,6 +69,8 @@ const [dueDate, setDueDate] = useState('');
 const [metricName, setMetricName] = useState('');
 const [metricType, setMetricType] = useState('');
 const [metricValue, setMetricValue] = useState('')
+
+
 
   // Making arrows usable
 const handlePrev = () => {
@@ -272,7 +275,8 @@ const handleNext = () => {
 
 {/*Dummy Data is on Dashboard.js & DummyData*/}
 const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives }) => {
-  
+  const [showObjectivesModal, setShowObjectivesModal] = useState(false)
+
   if (!okrs || okrs.length === 0) {
     return <div>No OKRs available</div>
   }
@@ -301,13 +305,17 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                 {/* Empty space to push icons to right */}
                 <div></div>
                 <div>
-                  <CButton
-                    color="light"
-                    variant="ghost"
-                    onClick={() => alert(`Add List of Objectives: ${okrs[currentOKR]?.title}`)}
-                  >
-                    <CIcon icon={cilList} />
-                  </CButton>
+<CTooltip content="View Team's Objectives" placement="top">
+  <CButton
+    color="light"
+    variant="ghost"
+    onClick={() => setShowObjectivesModal(true)}
+    className="me-2"
+  >
+    <CIcon icon={cilList} />
+  </CButton>
+</CTooltip>
+
                   <CButton
                     color="light"
                     variant="ghost"
@@ -405,6 +413,12 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
               </div>
             </CCardBody>
           </CCard>
+          <ViewObjectivesModal
+  visible={showObjectivesModal}
+  onClose={() => setShowObjectivesModal(false)}
+  objectives={okrs}
+/>
+
         </CCol>
 
         <CCol sm={7}>
