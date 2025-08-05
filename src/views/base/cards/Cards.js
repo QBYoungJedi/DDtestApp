@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   CCard,
   CCardBody,
@@ -7,47 +7,38 @@ import {
   CRow,
   CButton,
   CContainer,
-  CNav,
-  CNavItem,
-  CNavLink,
   CTooltip,
-  CFormTextarea,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
   cilPlus,
   cilPencil,
   cilList,
-  cilArrowLeft,
-  cilArrowRight,
 } from '@coreui/icons'
-import { CChart } from '@coreui/react-chartjs'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { teamMembers } from 'src/DummyData/Usersdata.js'
-import { initiatives } from 'src/DummyData/initiativesdata.js'
+import { initiativeComments } from 'src/DummyData/initiativeCommentsdata.js'
 import AddInitiativeModal from 'src/components/AddInitiativeModal.js'
+import { objectives as teamObjectives } from 'src/DummyData/Objectivesdata'
 import ViewInitiativeModal from 'src/components/ViewInitiativeModal.js'
 import ConfettiComponent from 'src/components/ConfettiComponent.js'
-import EditableDonut from 'src/views/Charts/EditableDonut.js'
+import EditableDonut from 'src/views/Charts/InitiativeDonut.js'
 import ViewObjectivesModal from 'src/components/ViewObjectivesModal.js'
+import ObjectiveDonut from '../../Charts/ObjectiveDonut'
 
+const InitiativesSection = ({ initiatives, teamObjectives, okrs, initiativeComments  }) => {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [selectedObjective, setSelectedObjective] = useState('')
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [newInitiativeTitle, setNewInitiativeTitle] = useState('')
+  const [selectedOwner, setSelectedOwner] = useState('')
+  const [dueDate, setDueDate] = useState('')
+  const [metricName, setMetricName] = useState('')
+  const [metricType, setMetricType] = useState('')
+  const [metricValue, setMetricValue] = useState('')
+  const [showViewInitiativesModal, setShowViewInitiativesModal] = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
 
-
-// Placeholder for InitiativeGraph
-const InitiativeGraph = ({ initiative }) => (
-  <div style={{ height: 200, backgroundColor: '#eef3f7' }}>
-    <p className="text-center pt-5">Graph for: {initiative.title}</p>
-  </div>
-)
-
-// Placeholder for InitiativeComments
-const InitiativeComments = ({ initiative }) => (
-  <div style={{ height: 200, backgroundColor: '#f7f9fb', padding: '1rem', overflowY: 'auto' }}>
-    <p>Comments related to: {initiative.title}</p>
-    {/* Replace with your comment components */}
-  </div>
-)
-
-const InitiativesSection = ({ initiatives, teamObjectives }) => {
   if (!initiatives || initiatives.length === 0) {
     return <div>No initiatives available</div>
   }
@@ -61,28 +52,16 @@ const InitiativesSection = ({ initiatives, teamObjectives }) => {
     return <div>No initiatives assigned to {user.name}</div>
   }
 
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [selectedObjective, setSelectedObjective] = useState('');
-  const [showAddModal, setShowAddModal] = useState(false)
-  const [newInitiativeTitle, setNewInitiativeTitle] = useState('')
-const [selectedOwner, setSelectedOwner] = useState('');
-const [dueDate, setDueDate] = useState('');
-const [metricName, setMetricName] = useState('');
-const [metricType, setMetricType] = useState('');
-const [metricValue, setMetricValue] = useState('')
+  const [currentOKR, setCurrentOKR] = useState(0)
+  const currentObjective = okrs && okrs.length > 0 ? okrs[currentOKR] : null
 
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + filteredInitiatives.length) % filteredInitiatives.length)
+  }
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % filteredInitiatives.length)
+  }
 
-
-  // Making arrows usable
-const handlePrev = () => {
-  setCurrentIndex((prev) => (prev - 1 + filteredInitiatives.length) % filteredInitiatives.length)
-}
-const handleNext = () => {
-  setCurrentIndex((prev) => (prev + 1) % filteredInitiatives.length)
-}
-
-
-  //Icons
   const handleViewAll = () => {
     alert('View all initiatives here')
   }
@@ -103,43 +82,45 @@ const handleNext = () => {
   }
 
   const handleEdit = () => {
-    alert(`Edit initiative: ${initiatives[currentIndex].title}`)
+    alert(`Edit initiative: ${filteredInitiatives[currentIndex].title}`)
   }
 
   const currentInitiative = filteredInitiatives[currentIndex]
-  const [showViewInitiativesModal, setShowViewInitiativesModal] = useState(false)
-  const [currentUser, setCurrentUser] = useState(null)
 
-
+  // Get most recent comment for current initiative
+  const relatedComments = initiativeComments
+    .filter((comment) => comment.initiativeId === currentInitiative.id)
+    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+  const latestComment = relatedComments.length > 0 ? relatedComments[0] : null
 
   return (
     <>
-    <ConfettiComponent trigger={currentInitiative?.progress === 100} />
+      <ConfettiComponent trigger={currentInitiative?.progress === 100} />
       <CCard style={{ marginBottom: 32 }}>
         <CCardHeader>
           <div className="d-flex justify-content-end">
-<CTooltip content="View All My initiatives" placement="top">
-  <CButton
-    color="light"
-    variant="ghost"
-    onClick={() => {
-      setCurrentUser(teamMembers[0])
-      setShowViewInitiativesModal(true)
-    }}
-    className="me-2"
-  >
-    <CIcon icon={cilList} />
-  </CButton>
-</CTooltip>
-<CTooltip content="Add A New Initiative" placement="top">
-            <CButton color="light" variant="ghost" onClick={handleAdd} className="me-2">
-              <CIcon icon={cilPlus} />
-            </CButton>
+            <CTooltip content="View All My initiatives" placement="top">
+              <CButton
+                color="light"
+                variant="ghost"
+                onClick={() => {
+                  setCurrentUser(teamMembers[0])
+                  setShowViewInitiativesModal(true)
+                }}
+                className="me-2"
+              >
+                <CIcon icon={cilList} />
+              </CButton>
             </CTooltip>
-            <CTooltip content="Edit Initiative" placement="top">
-            <CButton color="light" variant="ghost" onClick={handleEdit}>
-              <CIcon icon={cilPencil} />
-            </CButton>
+            <CTooltip content="Add A New Initiative" placement="top">
+              <CButton color="light" variant="ghost" onClick={handleAdd} className="me-2">
+                <CIcon icon={cilPlus} />
+              </CButton>
+            </CTooltip>
+            <CTooltip content="Edit Initiative" placement="bottom">
+              <CButton color="light" variant="ghost" onClick={handleEdit}>
+                <CIcon icon={cilPencil} />
+              </CButton>
             </CTooltip>
           </div>
 
@@ -148,6 +129,7 @@ const handleNext = () => {
               color="light"
               variant="ghost"
               onClick={handlePrev}
+              className="arrow-button"
               style={{
                 width: '2rem',
                 height: '2rem',
@@ -158,7 +140,7 @@ const handleNext = () => {
                 justifyContent: 'center',
               }}
             >
-              <CIcon icon={cilArrowLeft} style={{ width: '1.5rem', height: '1.5rem' }} />
+              <ChevronLeft size={300} />
             </CButton>
 
             <div className="mx-3 fw-bold fs-5 text-center" style={{ minWidth: 150 }}>
@@ -179,7 +161,7 @@ const handleNext = () => {
                 justifyContent: 'center',
               }}
             >
-              <CIcon icon={cilArrowRight} style={{ width: '1.5rem', height: '1.5rem' }} />
+              <ChevronRight size={300} />
             </CButton>
           </div>
         </CCardHeader>
@@ -196,9 +178,7 @@ const handleNext = () => {
                   height: '100%',
                 }}
               >
-<EditableDonut
-  initialProgress={currentInitiative?.progress || 0}
-/>
+                <EditableDonut initialProgress={currentInitiative?.progress || 0} />
               </div>
             </CCol>
 
@@ -218,9 +198,13 @@ const handleNext = () => {
                 {/* Top Section: Most Recent Comment */}
                 <div style={{ flex: 1, marginBottom: '1rem', overflowY: 'auto' }}>
                   <h6 className="fw-bold mb-2">Most Recent Comment:</h6>
-                  <p className="mb-0 text-muted">
-                    This is the most recent comment on "{currentInitiative.title}".
-                  </p>
+                  {latestComment ? (
+                    <>
+                      <p className="mb-1 text-muted">{latestComment.comment}</p>
+                    </>
+                  ) : (
+                    <p className="mb-0 text-muted">No comments yet for this initiative.</p>
+                  )}
                 </div>
 
                 {/* Divider */}
@@ -243,40 +227,51 @@ const handleNext = () => {
         </CCardBody>
       </CCard>
 
-      {/* Add An Initivative Modal*/}
+      {/* Add An Initiative Modal */}
       <AddInitiativeModal
-  visible={showAddModal}
-  onClose={() => setShowAddModal(false)}
-  onSubmit={handleAddSubmit}
-  newInitiativeTitle={newInitiativeTitle}
-  setNewInitiativeTitle={setNewInitiativeTitle}
-  selectedObjective={selectedObjective}
-  setSelectedObjective={setSelectedObjective}
-  selectedOwner={selectedOwner}
-  setSelectedOwner={setSelectedOwner}
-  dueDate={dueDate}
-  setDueDate={setDueDate}
-  metricName={metricName}
-  setMetricName={setMetricName}
-  metricValue={metricValue}
-  setMetricValue={setMetricValue}
-  metricType={metricType}
-  setMetricType={setMetricType}
-  teamObjectives={teamObjectives}
-  teamMembers={teamMembers}
-/>
-<ViewInitiativeModal
-  visible={showViewInitiativesModal}
-  onClose={() => setShowViewInitiativesModal(false)}
-  currentUser={teamMembers[0]}
-/>
+        visible={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSubmit={handleAddSubmit}
+        newInitiativeTitle={newInitiativeTitle}
+        setNewInitiativeTitle={setNewInitiativeTitle}
+        selectedObjective={selectedObjective}
+        setSelectedObjective={setSelectedObjective}
+        selectedOwner={selectedOwner}
+        setSelectedOwner={setSelectedOwner}
+        dueDate={dueDate}
+        setDueDate={setDueDate}
+        metricName={metricName}
+        setMetricName={setMetricName}
+        metricValue={metricValue}
+        setMetricValue={setMetricValue}
+        metricType={metricType}
+        setMetricType={setMetricType}
+        teamObjectives={teamObjectives}
+        teamMembers={teamMembers}
+      />
+
+      <ViewInitiativeModal
+        visible={showViewInitiativesModal}
+        onClose={() => setShowViewInitiativesModal(false)}
+        currentUser={currentUser}
+      />
     </>
   )
 }
 
-{/*Dummy Data is on Dashboard.js & DummyData*/}
-const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives }) => {
+const Cards = ({
+  currentOKR,
+  setCurrentOKR,
+  okrs,
+  initiatives,
+  comokr,
+  currentObjective,
+  teamObjectives,
+}) => {
   const [showObjectivesModal, setShowObjectivesModal] = useState(false)
+  const [currentTeamObjective, setCurrentTeamObjective] = useState(0)
+const currentTeamObj = teamObjectives && teamObjectives.length > 0 ? teamObjectives[currentTeamObjective] : null
+
 
   if (!okrs || okrs.length === 0) {
     return <div>No OKRs available</div>
@@ -293,7 +288,13 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
   const handlePrev = () => {
     setCurrentOKR((prev) => (prev - 1 + okrs.length) % okrs.length)
   }
- 
+const ObjhandlePrev = () => {
+  setCurrentTeamObjective((prev) => (prev - 1 + teamObjectives.length) % teamObjectives.length)
+}
+
+const ObjhandleNext = () => {
+  setCurrentTeamObjective((prev) => (prev + 1) % teamObjectives.length)
+}
 
   return (
     <CContainer style={{ marginBottom: 32 }}>
@@ -301,134 +302,111 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
         {/* Left Column */}
         <CCol sm={5}>
           <CCard style={{ marginBottom: 32 }}>
-            {/* Card Header: icons top right, title & arrows on second row */}
-            <CCardHeader>
-              <div className="d-flex justify-content-between align-items-start">
-                {/* Empty space to push icons to right */}
-                <div></div>
-                <div>
-<CTooltip content="View Team's Objectives" placement="top">
-  <CButton
-    color="light"
-    variant="ghost"
-    onClick={() => setShowObjectivesModal(true)}
-    className="me-2"
-  >
-    <CIcon icon={cilList} />
-  </CButton>
-</CTooltip>
+<CCardHeader>
+  <div className="d-flex justify-content-between align-items-start">
+    <div></div>
+    <div>
+      <CTooltip content="View Team's Objectives" placement="top">
+        <CButton
+          color="light"
+          variant="ghost"
+          onClick={() => setShowObjectivesModal(true)}
+          className="me-2"
+        >
+          <CIcon icon={cilList} />
+        </CButton>
+      </CTooltip>
+      <CTooltip content="Add Team's Objective" placement="top">
+        <CButton
+          color="light"
+          variant="ghost"
+          onClick={() => alert('Add Objective')}
+          className="me-2"
+        >
+          <CIcon icon={cilPlus} />
+        </CButton>
+      </CTooltip>
+      <CTooltip content="Edit Objective" placement="bottom">
+        <CButton
+          color="light"
+          variant="ghost"
+          onClick={() => alert(`Edit Objective`)}
+        >
+          <CIcon icon={cilPencil} />
+        </CButton>
+      </CTooltip>
+    </div>
+  </div>
 
-                  <CButton
-                    color="light"
-                    variant="ghost"
-                    onClick={() => alert('Add Objective')}
-                    className="me-2"
-                  >
-                    <CIcon icon={cilPlus} />
-                  </CButton>
-                  <CButton
-                    color="light"
-                    variant="ghost"
-                    onClick={() => alert(`Edit Objective: ${okrs[currentOKR]?.title}`)}
-                  >
-                    <CIcon icon={cilPencil} />
-                  </CButton>
-                </div>
-              </div>
+  <div className="d-flex align-items-center mt-3">
+    <CButton
+      color="light"
+      variant="ghost"
+      onClick={ObjhandlePrev}
+      style={{
+        width: '2rem',
+        height: '2rem',
+        padding: 0,
+        minWidth: 'unset',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <ChevronLeft size={300} />
+    </CButton>
 
-              {/* Second row: arrows and objectives */}
-              <div className="d-flex align-items-center mt-3">
-                <CButton
-                  color="light"
-                  variant="ghost"
-                  onClick={handlePrev}
-                  style={{
-                    width: '2rem',
-                    height: '2rem',
-                    padding: 0,
-                    minWidth: 'unset',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <CIcon icon={cilArrowLeft} style={{ width: '1.5rem', height: '1.5rem' }} />
-                </CButton>
+    <div className="flex-grow-1 text-center fw-bold fs-5">
+      {teamObjectives[currentTeamObjective]?.title}
+    </div>
 
-                <div className="flex-grow-1 text-center fw-bold fs-5">
-                  {okrs[currentOKR]?.title}
-                </div>
-
-                <CButton
-                  color="light"
-                  variant="ghost"
-                  onClick={handleNext}
-                  style={{
-                    width: '2rem',
-                    height: '2rem',
-                    padding: 0,
-                    minWidth: 'unset',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <CIcon icon={cilArrowRight} style={{ width: '1.5rem', height: '1.5rem' }} />
-                </CButton>
-              </div>
-            </CCardHeader>
-
-            {/* Card Body with Graph */}
-            <CCardBody style={{ minHeight: 500 }}>
+    <CButton
+      color="light"
+      variant="ghost"
+      onClick={ObjhandleNext}
+      style={{
+        width: '2rem',
+        height: '2rem',
+        padding: 0,
+        minWidth: 'unset',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <ChevronRight size={300} />
+    </CButton>
+  </div>
+</CCardHeader>
+            <CCardBody style={{ minHeight: 470 }}>
               <div
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  height: '450px',
+                  height: '470px',
                 }}
               >
-                <CChart
-                  type="doughnut"
-                  data={{
-                    labels: ['Completed', 'Remaining'],
-                    datasets: [
-                      {
-                        backgroundColor: ['#4caf50', '#e0e0e0'],
-                        data: [
-                          okrs[currentOKR]?.progress || 0,
-                          100 - (okrs[currentOKR]?.progress || 0),
-                        ],
-                      },
-                    ],
-                  }}
-                  options={{
-                    plugins: {
-                      legend: {
-                        position: 'bottom',
-                      },
-                    },
-                    cutout: '70%',
-                  }}
-                  style={{ maxHeight: '250px', width: '250px' }}
-                />
+                <ObjectiveDonut progress={teamObjectives[currentTeamObjective]?.progress} />
               </div>
             </CCardBody>
           </CCard>
           <ViewObjectivesModal
-  visible={showObjectivesModal}
-  onClose={() => setShowObjectivesModal(false)}
-  objectives={okrs}
-/>
-
+            visible={showObjectivesModal}
+            onClose={() => setShowObjectivesModal(false)}
+            okrs={okrs}
+          />
         </CCol>
 
+        {/* Right Column */}
         <CCol sm={7}>
+          <InitiativesSection
+            initiatives={initiatives}
+            okrs={okrs}
+            initiativeComments={initiativeComments}
+            teamObjectives={teamObjectives}
+          />
 
-          {/* Initiatives Section at the top */}
-          <InitiativesSection initiatives={initiatives} teamObjectives={teamObjectives}/>
-
-          {/* Bottom right column card */}
           <CCard>
               <CCardHeader>
               <div className="d-flex justify-content-between align-items-start">
@@ -438,14 +416,14 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                   <CButton
                     color="light"
                     variant="ghost"
-                    onClick={() => alert(`Add List of Objectives: ${okrs[currentOKR]?.title}`)}
+                    onClick={() => alert('View List of Key Results}')}
                   >
                     <CIcon icon={cilList} />
                   </CButton>
                   <CButton
                     color="light"
                     variant="ghost"
-                    onClick={() => alert('Add Objective')}
+                    onClick={() => alert('Add Key Result')}
                     className="me-2"
                   >
                     <CIcon icon={cilPlus} />
@@ -453,7 +431,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                   <CButton
                     color="light"
                     variant="ghost"
-                    onClick={() => alert(`Edit Objective: ${okrs[currentOKR]?.title}`)}
+                    onClick={() => alert('Edit Key Result')}
                   >
                     <CIcon icon={cilPencil} />
                   </CButton>
@@ -476,11 +454,11 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                     justifyContent: 'center',
                   }}
                 >
-                  <CIcon icon={cilArrowLeft} style={{ width: '1.5rem', height: '1.5rem' }} />
+                  <ChevronLeft size={300} />
                 </CButton>
 
                 <div className="flex-grow-1 text-center fw-bold fs-5">
-                  {okrs[currentOKR]?.title}
+                {okrs[currentOKR]?.title}
                 </div>
 
                 <CButton
@@ -497,13 +475,14 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                     justifyContent: 'center',
                   }}
                 >
-                  <CIcon icon={cilArrowRight} style={{ width: '1.5rem', height: '1.5rem' }} />
+                  <ChevronRight size={300} />
                 </CButton>
               </div>
             </CCardHeader>
-            <CCardBody style={{ minHeight: 185 }}>
-              <CFormTextarea readOnly rows={4} className='fw-semibold, fs-3'  value={okrs[currentOKR]?.keyresult}>
-              </CFormTextarea>
+             <CCardBody style={{ minHeight: 95 }}>
+                  <div style={{ flex: 1, marginBottom: '1rem', overflowY: 'auto' }}>
+                  <h5 className="text-center mb-2">{okrs[currentOKR]?.keyresult}</h5>
+                </div>
             </CCardBody>
           </CCard>
         </CCol>
@@ -511,4 +490,5 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
     </CContainer>
   )
 }
+
 export default Cards

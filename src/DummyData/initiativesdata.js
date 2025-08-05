@@ -1,4 +1,5 @@
-import { teamMembers } from 'src/DummyData/Usersdata.js'
+import { teamMembers } from 'src/DummyData/Usersdata.js';
+import { initiativeComments } from 'src/DummyData/InitiativeCommentsdata.js';
 
 export const initiatives = [
   {
@@ -7,7 +8,8 @@ export const initiatives = [
     title: 'Fix Mobile Responsiveness',
     dueDate: '09-15-2025',
     progress: 25,
-    isFavorite: false,
+    isFavorite: true,
+    commentIds: [1, 2],
     owner: teamMembers[0],
   },
   {
@@ -17,6 +19,7 @@ export const initiatives = [
     dueDate: '10-01-2025',
     progress: 60,
     isFavorite: true,
+    commentIds: [3],
     owner: teamMembers[0],
   },
   {
@@ -26,7 +29,8 @@ export const initiatives = [
     dueDate: '08-20-2026',
     progress: 80,
     isFavorite: false,
-    owner: teamMembers[2], // 3rd user
+    commentIds: [],
+    owner: teamMembers[2],
   },
   {
     id: 4,
@@ -35,24 +39,27 @@ export const initiatives = [
     dueDate: '09-30-2025',
     progress: 45,
     isFavorite: true,
+    commentIds: [4],
     owner: teamMembers[3],
   },
   {
     id: 5,
     objectiveId: 3,
     title: 'Upgrade Security Protocols',
-    dueDate: '10-10-2025',
-    progress: 10,
+    dueDate: '05-15-2025',
+    progress: 100,
     isFavorite: false,
+    commentIds: [],
     owner: teamMembers[4],
   },
   {
     id: 6,
     objectiveId: 3,
     title: 'Automate Quarterly Reporting',
-    dueDate: '11-01-2025',
-    progress: 70,
+    dueDate: '06-01-2025',
+    progress: 100,
     isFavorite: true,
+    commentIds: [5],
     owner: teamMembers[5],
   },
-]
+];

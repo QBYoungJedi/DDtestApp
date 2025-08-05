@@ -1,18 +1,13 @@
 import React from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-
 import SimpleBar from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'
-
 import { CBadge, CNavLink, CSidebarNav } from '@coreui/react'
-
-// Import your dummy users data here
 import { teamMembers } from 'src/DummyData/Usersdata.js'
 
 export const AppSidebarNav = ({ items }) => {
-  // Example: select the first user as the current user
-  // You can customize this to get the logged-in user from context or props
+
   const currentUser = teamMembers[0] || { name: 'Username', avatar: 'https://via.placeholder.com/150' }
 
   const navLink = (name, icon, badge, indent = false) => {
