@@ -28,9 +28,12 @@ const ViewInitiativeModal = ({ visible, onClose, currentUser }) => {
     )
   }
 
-  const userInitiatives = favoriteInitiatives
-    .filter((i) => i.owner?.id === currentUser.id)
-    .sort((a, b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0)) // Favorites first
+const userInitiatives = currentUser
+  ? favoriteInitiatives
+      .filter((i) => i.owner?.id === currentUser.id)
+      .sort((a, b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0)) // Favorites first
+  : []
+
 
     const updateProgress = (id, newProgress) => {
   setFavoriteInitiatives((prev) =>

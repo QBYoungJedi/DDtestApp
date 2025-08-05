@@ -65,22 +65,50 @@ body {
     --cui-footer-bg: var(--cui-body-bg);
   }
 }
-/* Arrow button styling */
-.arrow-button {
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0;
+.indicator-dot {
+  width: 12px;
+  height: 12px;
+  margin: 0 6px;
+  border-radius: 50%;
+  background-color: #ccc;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &.active {
+    background-color: #000;
+  }
+
+  &:hover {
+    background-color: #666;
+  }
+}
+.custom-indicators {
+  position: absolute;
+  bottom: 15px;     // adjust vertical position inside carousel
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  align-items: center;
   justify-content: center;
+  gap: 12px;
+  z-index: 10;      // make sure it’s above slides/arrows
 }
 
-.arrow-button svg {
-  filter: brightness(0.4); /* default darker gray */
-  transition: filter 0.2s ease;
+.indicator-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ccc;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &.active {
+    background-color: #000;
+  }
+
+  &:hover {
+    background-color: #666;
+  }
 }
 
-.arrow-button:hover svg {
-  filter: brightness(0); /* fully black on hover */
-}

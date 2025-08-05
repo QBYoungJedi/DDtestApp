@@ -1,0 +1,28 @@
+.carousel-custom-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  z-index: 10;
+  color: black;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: black;
+  }
+
+  &.left {
+    left: 0.5rem;
+  }
+
+  &.right {
+    right: 0.5rem;
+  }
+
+  svg {
+    pointer-events: none;
+  }
+}
