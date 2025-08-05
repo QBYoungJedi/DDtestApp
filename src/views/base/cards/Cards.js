@@ -434,6 +434,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                 {/* Empty space to push icons to right */}
                 <div></div>
                 <div>
+                  <CTooltip content="View All My key-results" placement="top">
                   <CButton
                     color="light"
                     variant="ghost"
@@ -441,6 +442,8 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                   >
                     <CIcon icon={cilList} />
                   </CButton>
+                  </CTooltip>
+                  <CTooltip content="Add new Key-result" placement="top">
                   <CButton
                     color="light"
                     variant="ghost"
@@ -449,6 +452,8 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                   >
                     <CIcon icon={cilPlus} />
                   </CButton>
+                  </CTooltip>
+                  <CTooltip content="Edit key-result" placement="top">
                   <CButton
                     color="light"
                     variant="ghost"
@@ -456,6 +461,7 @@ const Cards = ({ currentOKR, setCurrentOKR, okrs, initiatives, teamObjectives })
                   >
                     <CIcon icon={cilPencil} />
                   </CButton>
+                  </CTooltip>
                 </div>
               </div>
 

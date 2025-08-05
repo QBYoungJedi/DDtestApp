@@ -10,7 +10,7 @@ const Ai = () => {
     <>
      <CTooltip content="AI OKR coach" placement="top">
       <CButton onClick={() => setVisible(!visible)}>
-        <CIcon icon={cilFlower}n size='xl'/>
+        <CIcon icon={cilFlower} size='xl'/>
       </CButton>
      </CTooltip>
       <CModal

@@ -6,8 +6,8 @@ import {
   CContainer,
   CImage,
 } from '@coreui/react'
-import { bottom } from '@popperjs/core'
-import { color } from 'chart.js/helpers'
+
+
 
 const Carousels = ({ currentOKR, setCurrentOKR, comokr }) => {
   const carouselRef = useRef(null)
@@ -28,6 +28,8 @@ const Carousels = ({ currentOKR, setCurrentOKR, comokr }) => {
         <CCarousel
           interval={false}
           controls
+         
+          
           indicators
           onSlid={handleSlideEnd}
           activeIndex={currentOKR}

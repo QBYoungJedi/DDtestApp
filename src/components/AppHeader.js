@@ -57,6 +57,7 @@ const AppHeader = () => {
           {/* Search bar added here */}
           <div className="search-container d-flex ms-4">
             <input
+              
               type="text"
               className="form-control form-control-sm me-2"
               placeholder="Search..."
