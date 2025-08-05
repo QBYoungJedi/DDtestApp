@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { CChart } from '@coreui/react-chartjs'
 
+
 const EditableDonut = ({ initialProgress = 0, onChange }) => {
-  const [progress, setProgress] = useState(initialProgress)
-  const completedColor = '#4caf50'
+const [progress, setProgress] = useState(initialProgress)
+const completedColor = '#025ddbff'
+
 
   useEffect(() => {
     setProgress(initialProgress)
   }, [initialProgress])
 
   
-  //removed because clicking is off
   const handleClick = (event) => {
     const rect = event.currentTarget.getBoundingClientRect()
     const x = event.clientX - rect.left - rect.width / 2
     const y = event.clientY - rect.top - rect.height / 2
     const angle = Math.atan2(y, x) * (100 / Math.PI) + 100
     const newProgress = Math.round((angle / 360) * 100)
+    
     setProgress(newProgress)
     if (onChange) onChange(newProgress)
   }
